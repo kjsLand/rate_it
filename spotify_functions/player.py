@@ -2,7 +2,7 @@
 This programs goal is to use all player modifications available for Spotify Developers.
 Author: Kevin Land
 """
-from spotify_function.basics import *
+from spotify_functions.basics import *
 
 # Requires user-read-recently-played
 def get_recently_played(limit=None):
@@ -79,23 +79,3 @@ def transfer_playback(device_ids:list):
 def set_volume(volume_percent, device_id=None):
     extension = add_URL_items(["volume_percent", "device_id"], [volume_percent, device_id])
     return requesting("https://api.spotify.com/v1/me/player/volume" + extension, requests.put)
-
-def main():
-    # print(get_recently_played())
-    # print(get_playback_state())
-    # print(get_available_devices())
-    # print(get_current_play())
-    # print(playback_action("ae781267dcbfd24d2b20d939c352e35dd9fe2b6e", "next"))
-    # print(playback_action("ae781267dcbfd24d2b20d939c352e35dd9fe2b6e", "previous"))
-    # print(playback_action("ae781267dcbfd24d2b20d939c352e35dd9fe2b6e", "pause"))
-    print(add_to_queue("spotify:album:6pOiDiuDQqrmo5DbG0ZubR", "ae781267dcbfd24d2b20d939c352e35dd9fe2b6e"))
-    # print(resume("ae781267dcbfd24d2b20d939c352e35dd9fe2b6e"))
-    # print(playback_mode("repeat", "off", "ae781267dcbfd24d2b20d939c352e35dd9fe2b6e"))
-    # print(playback_mode("shuffle", "True", "ae781267dcbfd24d2b20d939c352e35dd9fe2b6e"))
-    # print(seek_to(240, "ae781267dcbfd24d2b20d939c352e35dd9fe2b6e"))
-    # print(transfer_playback(["ae781267dcbfd24d2b20d939c352e35dd9fe2b6e", "ae781267dcbfd24d2b20d939c352e35dd9fe2b6e"]))
-    # print(set_volume(90, "ae781267dcbfd24d2b20d939c352e35dd9fe2b6e"))
-    pass
-
-if __name__ == "__main__":
-    main()

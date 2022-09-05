@@ -12,12 +12,3 @@ def get_current_user_profile():
 
 def get_user_profile(user_id):
     return requesting(BASE_URL["u"] + user_id)
-
-def main():
-    print(get_current_user_profile())
-    # print(get_user_profile("kevin.js.land"))
-    # print(get_user_profile("bzzee"))
-    pass
-
-if __name__ == "__main__":
-    main()

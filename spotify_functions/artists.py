@@ -30,14 +30,3 @@ def get_multiple_artists(artist_id:list):
     for id in artist_id:
         extension += "%2C" + id
     return requesting(BASE_URL[:len(BASE_URL)-1] + extension[0:5] + extension[8:])
-
-def main():
-    # print(get_artist_albums("20qISvAhX20dpIbOOzGK3q", None, "US", 2, None))
-    print(get_related_artist("20qISvAhX20dpIbOOzGK3q"))
-    # print(get_artist_top_tracks("20qISvAhX20dpIbOOzGK3q", "US"))
-    # print(get_artist("20qISvAhX20dpIbOOzGK3q"))
-    # print(get_multiple_artists(["20qISvAhX20dpIbOOzGK3q", "1vCWHaC5f2uS3yhpwWbIA6"]))
-    pass
-
-if __name__ == "__main__":
-    main()
