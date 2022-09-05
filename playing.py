@@ -1,10 +1,10 @@
 # last four scopes are needed
-from practice.player import *
-from practice.playlist import add_playlist_items, create_playlist
-from practice.profile import get_current_user_profile
-from practice.tracks import *
-from practice.artists import *
-from practice.albums import *
+from spotify_functions.player import *
+from spotify_functions.playlist import add_playlist_items, create_playlist
+from spotify_functions.profile import get_current_user_profile
+from spotify_functions.tracks import *
+from spotify_functions.artists import *
+from spotify_functions.albums import *
 from editor import *
 
 def getDeviceID():

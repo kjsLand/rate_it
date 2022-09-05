@@ -4,9 +4,9 @@ import requests
 from HelperFrames import FeaturedPeople, PlaylistPeople, artistRatingVeiw, discoverSection
 from editor import getAllArtists, getOverallRating, getRatedSongs, getTopRated, isRated
 from playing import artistAlbums, findFeatures, makeGroupPlaylist, reRate, songInfo, playAlbum, playDiscography, playTopTen
-from practice.albums import get_album_tracks
-from practice.artists import get_artist
-from practice.player import add_to_queue
+from spotify_functions.albums import get_album_tracks
+from spotify_functions.artists import get_artist
+from spotify_functions.player import add_to_queue
 from PIL import ImageTk, Image
 
 # Global Variables

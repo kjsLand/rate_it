@@ -2,8 +2,8 @@ from tkinter import *
 from PIL import ImageTk, Image
 from RatingStar import *
 from NavPages import Current, Discover, Ratings, Playlist, Related, Share
-from practice.authorization import auth_setup
-from practice.basics import TOKEN
+from spotify_functions.authorization import auth_setup
+from spotify_functions.basics import TOKEN
 
 # Colors
 # Grey : C0C0C0
