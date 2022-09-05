@@ -1,0 +1,7 @@
+Using figma: https://www.figma.com/file/lG1LXm7YjdmtnbuD0wEH7f/Untitled?node-id=0%3A1
+
+Home page: 
+- Background is green if rated and red if not
+- Name of song is displayed
+- 5 stars for a rating
+
