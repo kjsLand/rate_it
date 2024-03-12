@@ -1,2 +1,4 @@
 appCredentials.py
 rate.txt
+/__pycache__
+/spotify_functions/__pycache__

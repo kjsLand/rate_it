@@ -1,6 +1,7 @@
 from tkinter import Button
 import home
 from playing import rateCurSong
+from image import create_image
 
 class StarLine():
     __slots__ = ["__head", "__tail"]
@@ -23,7 +24,7 @@ class Star(Button):
         self.__position = position
         self.__prev = prev
         Button.__init__(self, *args, **kwargs)
-        self.img = home.create_image("./media/star.png", 30, 30)
+        self.img = create_image("./media/star.png", 30, 30)
         self.config(image=self.img)
         self["border"] = False
         self["bg"] = "#C0C0C0"
@@ -34,16 +35,16 @@ class Star(Button):
     def get_prev(self):
         return self.__prev
 
-    def set_prev(self, prev):
+    def set_prev(self, prev:'Star'):
         self.__prev = prev
     
     def get_positon(self):
         return self.__position
 
-    def light_change(self, cur, filename):
+    def light_change(self, cur:'Star', filename:str):
         if(cur is None):
             pass
         else:
-            cur.img = home.create_image(filename, 30, 30)
+            cur.img = create_image(filename, 30, 30)
             cur.configure(image=cur.img)
             cur.light_change(cur.get_prev(), filename)
