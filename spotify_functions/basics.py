@@ -38,7 +38,7 @@ class AuthToken:
 
         Button(frame, text="Click Here Before You Start", command=lambda:func(frame)).grid(row=0, column=0)
 
-TOKEN = AuthToken("")
+TOKEN = AuthToken("BQDkVU0Dgty0UMfs9kzrAiDVS4hWGT3x_hpB-BZVwNWKS_imJx6fuHUOTnwkMMFdZJt4g6e9CdbBKO4xb7W8IH9Kb9CGd3dfLrBWgWvCQjDFYrYH6vpvmZgZGeqSfqHkNOr0uW4CM7u1j9GDLIz8vgS2dKmnEBc1FxTCWjSK7FczeU9c0mYkKn99p6nv62KTx2ssqKv4M5hGt9k8DWjohqCycvDVSa4eDlJKgST5ZaBvam0q_P0nFOf6tAkVk5Qy3u9dYgUS9Q")
 
 # space = %20
 # , = %2C
@@ -64,5 +64,4 @@ def add_URL_items(title_list, value_list):
 
 # Every function uses HTTP get. This helper function just saves space.
 def requesting(url, func=requests.get):
-    return func(url,
-    headers={"Authorization": f"Bearer {TOKEN.get_token()}"}).json()
+    return func(url,headers={"Authorization": f"Bearer {TOKEN.get_token()}"}).json()

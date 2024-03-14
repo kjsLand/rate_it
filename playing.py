@@ -16,7 +16,10 @@ def getDeviceID():
 # make a try except to avoid this.
 # song parameter takes the id of the song
 def songInfo(song=None):
-    if(song==None): # if no song is given, then the function gets the current song's info
+    if TOKEN.get_token() == "":
+        raise Exception("No Token - Auth account and try again")
+
+    if(not song): # if no song is given, then the function gets the current song's info
         output = get_current_play()["item"]
     else:
         output = get_track(song) # Gets the specified track's info
@@ -32,9 +35,9 @@ def songInfo(song=None):
         info["album id"] = output["album"]["id"]
         info["album name"] = output["album"]["name"]
         info["imgurl"] = output["album"]["images"][0]["url"]
+
         info["artists id"] = list()
         info["artists"] = list()
-
         for i in range(len(output["artists"])): # index 0 will always be the main artist
                 info["artists id"].append(output["artists"][i]["id"])
                 info["artists"].append(output["artists"][i]["name"])
@@ -83,40 +86,30 @@ def getAlbumSongs(album_id, artist, type, unrated_mode=False):
 # Plays all the songs that an artist has
 # artist_id cand be provided, but the current artist is given by defualt.
 def playDiscography(artist_id=None, artist_name=None, unrated_mode=False):
+    # Grabs artist info
     if(artist_id==None and artist_name==None):
         info = songInfo()
         if(info != None):
             artist_id = info["artists id"][0]
             artist_name = info["artists"][0]
 
+    all_songs:dict = {}
     all_albums, num_of_tracks = artistAlbums(artist_id, "id")
-    print("Number of tracks: " + (str)(num_of_tracks) + "\nNumber of albums " + (str)(len(all_albums)))
-    
-    i = (len(all_albums)/20).__ceil__() # Can only request a maximum of 20 albums
-    all_songs = list()
-    while(i > 0):
-        if(i == (len(all_albums)/20).__ceil__()):
-            all_songs = songsFromAlbums(get_multiple_albums(all_albums[(i-1)*20:], "US"), all_songs)
-        else:
-            all_songs = songsFromAlbums(get_multiple_albums(all_albums[(i-1)*20:i*20], "US"), all_songs)
-        i-=1
+    print("Number of tracks: " + str(num_of_tracks) + "\nNumber of albums " + str(len(all_albums)))
+    for i in range(0, len(all_albums), 20): # Splits in sections of 20
+        all_songs.update(songsFromAlbums(get_multiple_albums(all_albums[i:i+20], "US"), all_songs))
 
     playlist_name = artist_name
-    if(unrated_mode):
-        rated = getRatedSongs(artist_name, 0, "id") # Gets all rated songs
+    if unrated_mode:
+        rated = getRatedSongs(artist_name) # Gets all rated songs
+        for song in rated:
+            all_songs.pop(song[0])
         playlist_name+= " (unrated)"
-        for song in all_songs:
-            if(rated.__contains__(song)):
-                all_songs.remove(song)
     
     id = makePlaylist(playlist_name)
-    i = (len(all_songs)/100).__ceil__() # Can only request a maximum of 100 tracks
-    while(i > 0):
-        if(i == (len(all_albums)/100).__ceil__()):
-            addToPlaylist(id, all_songs[(i-1)*100:])
-        else:
-            addToPlaylist(id, all_songs[(i-1)*100:i*100])
-        i-=1
+    adding = list(all_songs.values())
+    for i in range(0, len(adding), 100): # Can only request a maximum of 100 tracks
+        addToPlaylist(id, adding[i:i+100])
 
 # Puts all songs of a specified album to the user's queue
 def playAlbum(id=None, artist=None):
@@ -190,11 +183,11 @@ def artistsFromAlbums(albums_info, data):
 # data is a dictionary and albums_info is a get_multiple_albums request
 def songsFromAlbums(albums_info, data):
     if(data == None):
-        data = list()
+        data = dict()
 
     for item in albums_info["albums"]: # Gets all albums
-        for track in item["tracks"]["items"]: # Gets all tracks in albums
-                    data.append(track["id"]) # adds them to a dict
+        for track in item["tracks"]["items"]: # Gets all tracks in 
+            data[track["name"]] = track["id"] # adds them to a dict
 
     return data
 

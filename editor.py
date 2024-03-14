@@ -50,7 +50,7 @@ def getRatedSongs(artist_name, rating=0, type=None):
             elif type == "name":
                 tracks.append(songs[sid]["name"])
             elif not type:
-                tracks.append((sid,songs[sid]["rating"],songs[sid]["name"]))
+                tracks.append((songs[sid]["name"],songs[sid]["rating"],sid))
     return tracks
 
 def getOverallRating(artist_name):
