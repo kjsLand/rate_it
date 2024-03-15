@@ -1,55 +1,58 @@
-####### Credit to the below link for the authorization process ######
-####### https://github.com/requests/requests-oauthlib/blob/master/docs/examples/spotify.rst ########
-
-from tkinter import CENTER, Button, Label, Text
+import os
+import signal
+import threading
 import webbrowser
-from requests_oauthlib import OAuth2Session
-from requests.auth import HTTPBasicAuth
 from .basics import TOKEN
 from appCredentials import PASSWORD, USERNAME
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+import requests
+import uvicorn
 
-def auth_setup(frame):
-    # Clears frame
-    for widget in frame.winfo_children():
-            widget.destroy()
+app = FastAPI()
+client_id = USERNAME
+client_secret = PASSWORD
+redirect_uri = 'http://127.0.0.1:8080/callback/'
+scope = [
+    "user-read-playback-state",
+    "user-modify-playback-state",
+    "user-read-currently-playing",
+    "user-read-recently-played", 
+    "user-read-private",
+    "user-read-email",
+    "playlist-modify-public",
+    "playlist-modify-private"
+]
 
-    # Credentials you get from registering a new application
-    client_id = USERNAME
-    client_secret = PASSWORD
-    redirect_uri = 'https://localhost:8080/callback/'
+# Stops the local server when called
+def close_server():
+    os.kill(os.getpid(), signal.SIGTERM)
 
-    # OAuth endpoints given in the Spotify API documentation
-    # https://developer.spotify.com/documentation/general/guides/authorization/code-flow/
-    authorization_base_url = "https://accounts.spotify.com/authorize"
-    token_url = "https://accounts.spotify.com/api/token"
-    # https://developer.spotify.com/documentation/general/guides/authorization/scopes/
-    scope = [
-        "user-read-playback-state",
-        "user-modify-playback-state",
-        "user-read-currently-playing",
-        "user-read-recently-played", 
-        "user-read-private",
-        "user-read-email",
-        "playlist-modify-public",
-        "playlist-modify-private"
-    ]
+def auth_setup():
+    local_server = threading.Thread(target=uvicorn.run, args=(app,), kwargs={'host':"127.0.0.1", 'port':8080})
+    local_server.start()
+    webbrowser.open_new_tab(f"https://accounts.spotify.com/authorize?response_type=code&client_id={client_id}&redirect_uri={redirect_uri}&scope={' '.join(scope)}")
 
-    spotify = OAuth2Session(client_id, scope=scope, redirect_uri=redirect_uri)
+def get_access_token(auth_code: str):
+    response = requests.post(
+        "https://accounts.spotify.com/api/token",
+        data={
+            "grant_type": "authorization_code",
+            "code": auth_code,
+            "redirect_uri": redirect_uri,
+        },
+        auth=(client_id, client_secret),
+    )
+    TOKEN.set_tokens(response.json())
 
-    # Redirect user to Spotify for authorization
-    authorization_url, state = spotify.authorization_url(authorization_base_url)
-    destination = Label(frame, text='Please go here')
-    destination.bind("<Button-1>", lambda e:webbrowser.open_new_tab(authorization_url))
-    destination.grid(row=0, column=0)
+@app.get("/")
+async def auth():
+    return HTMLResponse(content=f'<p>root</p>')
 
-    # Get the authorization verifier code from the callback url
-    Label(frame, text="Paste the full redirect URL here: ").grid(row=1, column=0)
-    redirect_response = Text(frame, height=1, width=25)
-    redirect_response.grid(row=1, column=1)
-    auth = HTTPBasicAuth(client_id, client_secret)
-
-    # Fetch the access token
-    fetch_token_button = Button(frame, text="Get Authorization Token", command=lambda:TOKEN.set_token(spotify, token_url, redirect_response, auth, frame, auth_setup))
-    fetch_token_button.grid(row=1, column=2)
-    
-    frame.place(relx=0.5, rely=0.6, anchor=CENTER)
+@app.get("/callback/")
+async def callback(code:str):
+    try:
+        get_access_token(code)
+        return HTMLResponse(content=f'<p>You are now authorized!</p>')
+    except KeyError:
+        return HTMLResponse(content=f'<p>Authorization Failed - code entered was invalid</p>')

@@ -1,5 +1,4 @@
 from tkinter import Button
-import home
 from playing import rateCurSong
 from image import create_image
 

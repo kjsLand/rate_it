@@ -236,18 +236,21 @@ def addToPlaylist(playlist_id, all_songs):
         i-=1
 
 # Creates a playlist for multiple artists
-# artists should be a list of PlaylistPeople objects
-def makeGroupPlaylist(name, artists):
+# artists is a list of PlaylistPeople
+# TO-DO: Test to make sure this works
+def makeGroupPlaylist(name:str, artists):
     id = makePlaylist(name)
     all_songs = list()
     for person in artists:
-        try:
-            min_rating = (int)(person.getText())
-            for song in getRatedSongs(person.getArtist(), min_rating, id):
-                all_songs.append(song[2])
-        except ValueError:
-            pass # Takes care of non number errors
-    print(add_playlist_items(id, all_songs))
+        if type(person.getText()) != int:
+            continue
+
+        min_rating = int(person.getText())
+        for sid in getRatedSongs(person.getArtist(), min_rating, id):
+            all_songs.append(sid)
+
+    for i in range(0, len(all_songs), 100):
+        print(add_playlist_items(id, all_songs[i:i+100]))
 
 def main():
     # rateCurSong(9)

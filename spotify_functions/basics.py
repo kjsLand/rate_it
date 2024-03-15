@@ -2,43 +2,47 @@
 This programs holds functions that are used through out the other modules in the folder.
 Author: Kevin Land
 """
-from tkinter import END, Button
 import requests
+from appCredentials import USERNAME
 
 # This class assists the creation of a token from the home page of the app
 # token code is the auth token needed for most spotify requests
 class AuthToken:
-    __slots__ = ["__token_code", "__profile"]
+    __slots__ = ["__auth_token", "__refresh_token", "__profile", "__token"]
 
-    def __init__(self, token_code):
-        self.__token_code = token_code
+    def __init__(self, auth_token, refresh_token="", profile=""):
+        self.__auth_token = auth_token
+        self.__refresh_token = refresh_token
+        self.__profile = profile
+        self.__token = self.__auth_token
     
+    # Returns auth token until the user refreshes a token
     def get_token(self):
-        return self.__token_code
+        return self.__token
     
-    def get_profile(self):
-        return self.__profile
+    # Takes the auth API call response and sets tokens
+    def set_tokens(self, resp):
+        self.__auth_token = resp["access_token"]
+        self.__refresh_token = resp["refresh_token"]
+        self.__token = resp["access_token"]
+    
+    def get_new_refresh(self):
+        response = requests.post(
+            "https://accounts.spotify.com/api/token",
+            data={
+                "grant_type": "refresh_token",
+                "refresh_token":self.__refresh_token,
+                "client_id":USERNAME
+            },
+            headers={
+                "Content-Type":"application/x-www-form-urlencoded"
+            }
+        )
+        self.__auth_token = response.json()["access_token"]
+        self.__refresh_token = response.json()["refresh_token"]
+        self.__token = self.__refresh_token
 
-    def set_token(self, spotify, token_url, text_feild, auth, frame, func):
-        response = text_feild.get("1.0", END)
-        response = response[:len(response)-1]
-        token = spotify.fetch_token(token_url, auth=auth, authorization_response=response)
-
-        # Fetch a protected resource, i.e. user profile
-        self.__profile = spotify.get('https://api.spotify.com/v1/me')
-
-        print(token)
-
-        # Gets Authorization Token
-        self.__token_code = token["access_token"]
-
-        # Clears frame
-        for widget in frame.winfo_children():
-            widget.destroy()
-
-        Button(frame, text="Click Here Before You Start", command=lambda:func(frame)).grid(row=0, column=0)
-
-TOKEN = AuthToken("BQDkVU0Dgty0UMfs9kzrAiDVS4hWGT3x_hpB-BZVwNWKS_imJx6fuHUOTnwkMMFdZJt4g6e9CdbBKO4xb7W8IH9Kb9CGd3dfLrBWgWvCQjDFYrYH6vpvmZgZGeqSfqHkNOr0uW4CM7u1j9GDLIz8vgS2dKmnEBc1FxTCWjSK7FczeU9c0mYkKn99p6nv62KTx2ssqKv4M5hGt9k8DWjohqCycvDVSa4eDlJKgST5ZaBvam0q_P0nFOf6tAkVk5Qy3u9dYgUS9Q")
+TOKEN = AuthToken("")
 
 # space = %20
 # , = %2C

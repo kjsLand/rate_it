@@ -201,7 +201,11 @@ class Share(Page):
         albumCover = urlPhoto(albumInfo, info["imgurl"])
         albumCover.grid(row=1, column=0)
 
-        avgRating = Label(albumInfo, text="Overall Rating: " + (str)((total/ratedTotal).__round__(1)), bg="#75BAFF")
+        if ratedTotal == 0:
+            overall = 0
+        else:
+            overall = (str)((total/ratedTotal).__round__(1))
+        avgRating = Label(albumInfo, text="Overall Rating: " + overall, bg="#75BAFF")
         avgRating.grid(row=2, column=0)
 
         albumInfo.configure(height=trackInfo.winfo_height()) # Makes both frames the same height

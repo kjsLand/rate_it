@@ -26,6 +26,8 @@ def removeSong(song_id, artist):
 # Returns the song if rated, false otherwise
 def isRated(song_id, artist_name):
     contents:dict = json.loads(open(LOCAL_DATABASE).readlines()[0])
+    if artist_name not in contents:
+        return False
     return song_id in contents[artist_name].keys()
 
 def getAllArtists():

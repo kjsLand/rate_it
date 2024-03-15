@@ -1,13 +1,11 @@
 from tkinter import *
-from PIL import ImageTk, Image
-from RatingStar import *
 from NavPages import Current, Discover, Ratings, Playlist, Related, Share
-from spotify_functions.authorization import auth_setup
+from RatingStar import StarLine
+from spotify_functions.authorization import auth_setup, close_server
 from spotify_functions.basics import TOKEN
 from image import create_image
 
-
-# Colors
+# Color Scheme
 # Grey : C0C0C0
 # Blue : 75BAFF
 # Light Blue : #D0E8FF
@@ -78,9 +76,10 @@ def main():
     # Access Token Frame
     access = Frame(home_page, bg="#C0C0C0")
     access.place(relx=0.5, rely=0.7, anchor=CENTER)
-    auth_button = Button(access, text="Click Here Before You Start", command=lambda:auth_setup(access))
+    auth_button = Button(access, text="Click Here to Link Account", command=lambda:auth_setup())
     auth_button.grid(row=0, column=0)
 
+    root.protocol("WM_DELETE_WINDOW", close_server)
     root.mainloop()
 
 if(__name__ == "__main__"):
