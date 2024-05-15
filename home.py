@@ -1,8 +1,9 @@
 from tkinter import *
-from NavPages import Current, Discover, Ratings, Playlist, Related, Share
+from NavPages import Current, Discover, Page, Ratings, Playlist, Related, Share
 from RatingStar import StarLine
 from spotify_functions.authorization import auth_setup, close_server
 from spotify_functions.basics import TOKEN
+from playing import LOGS
 from image import create_image
 
 # Color Scheme
@@ -24,7 +25,7 @@ def main():
 
     #Pages of the program
     home_page = Frame(root, bg="#C0C0C0")
-    page_list = [home_page, 
+    page_list:list[Page] = [home_page, 
                 Share(root, home_page), 
                 Playlist(root, home_page), 
                 Related(root, home_page), 
@@ -75,9 +76,16 @@ def main():
 
     # Access Token Frame
     access = Frame(home_page, bg="#C0C0C0")
-    access.place(relx=0.5, rely=0.7, anchor=CENTER)
+    access.place(relx=0.5, rely=0.2, anchor=CENTER)
     auth_button = Button(access, text="Click Here to Link Account", command=lambda:auth_setup())
     auth_button.grid(row=0, column=0)
+
+    # Logs
+    log = Frame(home_page, bg="#222222")
+    log.place(relx=0.5, rely=0.75, anchor=CENTER)
+    for i in range(10):
+        LOGS[i] = Label(log, text="", width=75)
+        LOGS[i].grid(row=i, column=0)
 
     root.protocol("WM_DELETE_WINDOW", close_server)
     root.mainloop()

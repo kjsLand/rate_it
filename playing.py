@@ -1,4 +1,5 @@
 # last four scopes are needed
+from tkinter import Label
 from spotify_functions.player import *
 from spotify_functions.playlist import add_playlist_items, create_playlist
 from spotify_functions.profile import get_current_user_profile
@@ -6,6 +7,8 @@ from spotify_functions.tracks import *
 from spotify_functions.artists import *
 from spotify_functions.albums import *
 from editor import *
+
+LOGS = [None for _ in range(10)]
 
 def getDeviceID():
     output = get_available_devices()
@@ -148,14 +151,23 @@ def playTopTen(artist_id=None):
 
 # Rates the song that the user is currently listening to
 def rateCurSong(rating):
-    song = songInfo()
-    artist_name = song["artists"][0] #Gets first name if there are features
+    cur = ""
 
-    if(isRated(song["song id"], artist_name) != False):
-        print("Already rated this song (" + song["song id"] + ") by " + artist_name)
-        return
+    try:
+        song = songInfo()
+        artist_name = song["artists"][0] #Gets first name if there are features
 
-    addSong(song["song name"], rating, song["song id"], artist_name)
+        if(isRated(song["song id"], artist_name) != False):
+            cur = "Already rated this song by " + artist_name
+        else:
+            addSong(song["song name"], rating, song["song id"], artist_name)
+            cur = f'{song["song name"]} - {rating}' 
+    except:
+        cur = "Link account"
+
+    for i in range(len(LOGS)-1, 0, -1):
+        LOGS[i].config(text=LOGS[i-1].cget("text"))
+    LOGS[0].config(text=cur)
 
 # Changes the rating of a song that has previously been rated
 def reRate(rating):
