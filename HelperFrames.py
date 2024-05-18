@@ -75,7 +75,8 @@ class artistRatingVeiw(Button):
         Label(self.__frame, text=self.__artist, bg="#75BAFF").grid(row=0, column=0)
 
         index = 1
-        for track in getRatedSongs(self.__artist, 0):
+        rated_songs = sorted(getRatedSongs(self.__artist, 0), key=lambda song: song[1], reverse=True)
+        for track in rated_songs:
             song = Frame(self.__frame, bg="#75BAFF")
             song.grid(row=index, column=0)
             index += 1

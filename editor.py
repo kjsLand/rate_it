@@ -28,7 +28,9 @@ def isRated(song_id, artist_name):
     contents:dict = json.loads(open(LOCAL_DATABASE).readlines()[0])
     if artist_name not in contents:
         return False
-    return song_id in contents[artist_name].keys()
+    elif song_id not in contents[artist_name]:
+        return False
+    return contents[artist_name][song_id]
 
 def getAllArtists():
     contents:dict = json.loads(open(LOCAL_DATABASE).readlines()[0])

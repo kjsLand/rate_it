@@ -20,7 +20,7 @@ def getDeviceID():
 # song parameter takes the id of the song
 def songInfo(song=None):
     if TOKEN.get_token() == "":
-        raise Exception("No Token - Auth account and try again")
+        return "No Token - Click Link Account button"
 
     if(not song): # if no song is given, then the function gets the current song's info
         output = get_current_play()["item"]
@@ -152,18 +152,15 @@ def playTopTen(artist_id=None):
 # Rates the song that the user is currently listening to
 def rateCurSong(rating):
     cur = ""
+    song = songInfo()
 
-    try:
-        song = songInfo()
-        artist_name = song["artists"][0] #Gets first name if there are features
-
-        if(isRated(song["song id"], artist_name) != False):
-            cur = "Already rated this song by " + artist_name
-        else:
-            addSong(song["song name"], rating, song["song id"], artist_name)
-            cur = f'{song["song name"]} - {rating}' 
-    except:
-        cur = "Link account"
+    if type(song) == str:
+        cur = song
+    elif(isRated(song["song id"], song["artists"][0]) != False):
+        cur = "Already rated this song by " + song["artists"][0]
+    else:
+        addSong(song["song name"], rating, song["song id"], song["artists"][0])
+        cur = f'{song["song name"]} - {rating}' 
 
     for i in range(len(LOGS)-1, 0, -1):
         LOGS[i].config(text=LOGS[i-1].cget("text"))
@@ -185,8 +182,8 @@ def artistsFromAlbums(albums_info, data):
 
     for item in albums_info["albums"]: # Gets all albums
         for all_tracks in item["tracks"]["items"]: # Gets all tracks in albums
-                for person in all_tracks["artists"]: # Gets all artists in tracks
-                    data[person["name"]] = person["id"] # adds them to a dict
+            for person in all_tracks["artists"]: # Gets all artists in tracks
+                data[person["name"]] = person["id"] # adds them to a dict
 
     return data
 

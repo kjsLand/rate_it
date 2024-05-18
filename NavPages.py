@@ -153,7 +153,7 @@ class Share(Page):
             albumCover = urlPhoto(frame, info["imgurl"])
             albumCover.grid(row=1, column=0)
 
-            rated = Label(frame, bg="#75BAFF", text="Rating: " + rating[1], font=('Helvetica', 15, 'bold'))
+            rated = Label(frame, bg="#75BAFF", text=f"Rating: {rating['rating']}", font=('Helvetica', 15, 'bold'))
             rated.grid(row=2, column=0)
 
     def albumRating(self, frame):
@@ -182,16 +182,17 @@ class Share(Page):
             else:
                 ratings.append(cur_song)
                 ratedTotal+=1
-                total += (int)(cur_song[1])
+                total += cur_song["rating"]
 
         i = 0
         for rate in ratings:
+            print(rate)
             if(type(rate) == type("")):
                 Label(trackInfo, bg="#75BAFF", text=rate).grid(row=i, column=0)
                 Label(trackInfo, bg="#75BAFF", text="Not Rated").grid(row=i, column=1)
             else:
-                Label(trackInfo, bg="#75BAFF", text=rate[0]).grid(row=i, column=0)
-                Label(trackInfo, bg="#75BAFF", text="Rated: " + rate[1]).grid(row=i, column=1)
+                Label(trackInfo, bg="#75BAFF", text=rate["name"]).grid(row=i, column=0)
+                Label(trackInfo, bg="#75BAFF", text="Rated: " + rate["rating"]).grid(row=i, column=1)
             i+=1
 
         # Fill in album info
