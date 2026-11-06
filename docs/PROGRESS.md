@@ -33,14 +33,14 @@ Legend: `[x]` done, `[~]` partly done, `[ ]` not started.
 
 - [ ] Phase 0: workspace, lint gates, CI
 - [~] Phase 1: `storage` crate and migrations done, with tests. `rate.txt` parse is in `core`.
-- [ ] Phase 2: `spotify` crate, PKCE, token refresh, keyring
+- [~] Phase 2: `spotify` crate done (client, PKCE, refresh, 204/401/429/timeout tests). Keyring store goes in `src-tauri`.
 - [ ] Phase 3: `core` services, Tauri commands, React screens
 - [ ] Phase 4: mobile (not testable on this machine without devices)
 - [ ] Phase 5: retire Python app (owner action)
 
 ## Next steps
 
-- Write the `spotify` crate (client, PKCE, errors, wiremock tests).
+- Write the `core` crate (services with fake traits, `rate.txt` parse).
 
 ## How to build (for a resumed session)
 

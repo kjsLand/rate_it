@@ -1,5 +1,8 @@
 //! Tests of the SQLite repository against an in-memory database.
-#![expect(clippy::unwrap_used, reason = "test helpers: a panic is a test failure")]
+#![expect(
+    clippy::unwrap_used,
+    reason = "test helpers: a panic is a test failure"
+)]
 
 use rate_it_storage::{
     ArtistRef, ImportMode, NewRating, Rating, RatingSource, RatingsRepository, SqliteRepository,
