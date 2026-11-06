@@ -41,8 +41,6 @@ Legend: `[x]` done, `[~]` partly done, `[ ]` not started.
 
 ## Next steps
 
-- Flaky test: `crates/storage/tests/repository.rs` `export_then_import_moves_all_rows_once` fails when both ratings get the same millisecond. The import duplicate check (`crates/storage/src/sqlite.rs`, `SkipDuplicateRows`) compares only `track_id` and `rated_at`, so it also skips a real second rating with the same time.
-
 1. Owner: enter the Spotify Client ID in Settings (or build with `RATE_IT_SPOTIFY_CLIENT_ID`), sign in, and try each screen.
 2. Add WebDriver end-to-end tests on Linux: add a debug-only setting for the Spotify base URLs, run a fake Spotify server, drive the app with `tauri-driver`.
 3. Phase 4: `pnpm tauri android init` and `pnpm tauri ios init`, the share sheet, a device test of the custom scheme.

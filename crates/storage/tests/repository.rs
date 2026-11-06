@@ -203,6 +203,46 @@ async fn export_then_import_moves_all_rows_once() {
     );
 }
 
+/// Two ratings of one song in the same millisecond are two rows, not a duplicate.
+/// (This made `export_then_import_moves_all_rows_once` fail now and then.)
+#[tokio::test]
+async fn import_keeps_two_ratings_with_the_same_time() {
+    let at = "2026-11-05T10:00:00.000Z";
+    let rows: Vec<NewRating> = [4, 8]
+        .into_iter()
+        .map(|value| NewRating {
+            rated_at: Some(at.into()),
+            ..rating(
+                track("t1", "Song", &[("a1", "Artist")]),
+                value,
+                RatingSource::App,
+            )
+        })
+        .collect();
+
+    let target = SqliteRepository::in_memory().await.unwrap();
+    let report = target
+        .import_ratings(&rows, ImportMode::SkipDuplicateRows)
+        .await
+        .unwrap();
+    assert_eq!((report.imported, report.skipped), (2, 0));
+    let again = target
+        .import_ratings(&rows, ImportMode::SkipDuplicateRows)
+        .await
+        .unwrap();
+    assert_eq!((again.imported, again.skipped), (0, 2));
+    assert_eq!(
+        target
+            .current_rating("t1")
+            .await
+            .unwrap()
+            .unwrap()
+            .rating
+            .value(),
+        8
+    );
+}
+
 #[tokio::test]
 async fn settings_and_album_cache_round_trip() {
     let repo = SqliteRepository::in_memory().await.unwrap();
