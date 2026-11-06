@@ -36,10 +36,12 @@ Legend: `[x]` done, `[~]` partly done, `[ ]` not started.
 - [~] Phase 2: `spotify` crate (client, PKCE, refresh, 204/401/429/timeout tests) and keyring store (`src-tauri/src/token_store.rs`) done. Not verified: a real sign-in, and "more than 1 hour without a new sign-in" (needs a Spotify Client ID).
 - [~] Phase 3: all screens of the Feature parity table are built (`ui/src/screens/`), with Vitest + mockIPC tests. `pnpm check` passes. `pnpm tauri dev` starts the app on macOS and makes the database (both migrations applied). Not done: WebDriver end-to-end tests (`tauri-driver` runs on Linux and Windows only; they also need a setting to point the client at a fake Spotify server); a manual run against real Spotify.
 - [~] Phase 4: code paths exist: `rateit://callback` deep link sign-in (`cfg(mobile)`), file token store, JSON export/import. Not done: `tauri android init` / `tauri ios init`, native share sheet (`tauri-plugin-sharesheet`), device tests.
-- [~] UI overhaul (`docs/UI-SPEC.md`): step 1 done: palette (`ui/src/theme/palette.ts`), contrast test, `ui/src/styles/` tokens and base, self-hosted fonts, old colors removed. Step 2 done: one `<nav>` as sidebar / rail / phone tab bar with a More sheet, inline SVG icons, shared buttons, chips, status and progress, theme switch (Settings > Appearance), dev-only fake backend for `pnpm --dir ui dev`. Next: step 3 (screen themes).
+- [x] UI overhaul (`docs/UI-SPEC.md`, "Liner Notes"): palette and tokens with a contrast test, self-hosted fonts, one `<nav>` as sidebar / rail / phone tab bar, theme switch (Settings > Appearance), a theme per screen, ticket-style share image, paper grain, window background. Checked in the dev preview (`pnpm --dir ui dev` loads `ui/src/ipc/devBackend.ts` sample data outside Tauri); not checked in the Tauri window or on a phone.
 - [ ] Phase 5: retire Python app (owner action)
 
 ## Next steps
+
+- Flaky test: `crates/storage/tests/repository.rs` `export_then_import_moves_all_rows_once` fails when both ratings get the same millisecond. The import duplicate check (`crates/storage/src/sqlite.rs`, `SkipDuplicateRows`) compares only `track_id` and `rated_at`, so it also skips a real second rating with the same time.
 
 1. Owner: enter the Spotify Client ID in Settings (or build with `RATE_IT_SPOTIFY_CLIENT_ID`), sign in, and try each screen.
 2. Add WebDriver end-to-end tests on Linux: add a debug-only setting for the Spotify base URLs, run a fake Spotify server, drive the app with `tauri-driver`.

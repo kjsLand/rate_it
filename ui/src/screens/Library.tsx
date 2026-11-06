@@ -7,6 +7,7 @@ import { ActionStatus, LoadStatus } from "../components/Status";
 import { libraryArtists, libraryTracks, rerateTrack, trackHistory } from "../ipc";
 import type { ArtistSummaryDto, RatedTrackDto } from "../ipc";
 import "./Library.css";
+import "./LibraryHistory.css";
 
 /** Library ("The Crate"): all ratings by artist, sorted by rating. Change a rating in place. */
 export function Library() {

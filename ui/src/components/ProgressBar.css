@@ -1,0 +1,47 @@
+/* Progress of a long command: a disc, the bar, the count and Cancel. */
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: var(--space-4) 0;
+  max-width: 640px;
+}
+
+.progress progress {
+  flex: 1;
+  height: 8px;
+  appearance: none;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--surface-raised);
+  overflow: hidden;
+}
+
+.progress progress::-webkit-progress-bar {
+  background: var(--surface-raised);
+}
+
+.progress progress::-webkit-progress-value {
+  background: var(--accent);
+  border-radius: var(--radius-pill);
+  transition: width var(--dur-base) var(--ease-out);
+}
+
+.progress progress::-moz-progress-bar {
+  background: var(--accent);
+}
+
+.progress-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}
+
+.progress-disc {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent) 0 22%, var(--umber-950) 24% 100%);
+  animation: spin 2s linear infinite;
+}

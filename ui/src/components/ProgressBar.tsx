@@ -1,4 +1,5 @@
 import type { Progress } from "../ipc";
+import "./ProgressBar.css";
 
 /** The progress of a long command, with a Cancel button. */
 export function ProgressBar({

@@ -1,3 +1,5 @@
+import "./RatingChip.css";
+
 /** The color band of a rating (docs/UI-SPEC.md, "Rating bands"). The number always shows too. */
 export type RatingBand = "low" | "mid" | "high" | "top";
 

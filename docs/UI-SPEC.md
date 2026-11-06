@@ -221,7 +221,7 @@ All numbers use `font-variant-numeric: tabular-nums`, so columns of ratings line
 | **Status line**      | `LoadStatus` / `ActionStatus`: small text with a leading icon (spinner, ✓, ⚠). Same text and roles as now.                                 |
 | **Progress**         | 8 px track (`--surface-raised`), `--accent` fill, mono label "12 / 40 albums", quiet Cancel button. Keep native `<progress>` and style it. |
 | **Eyebrow**          | `--fs-micro` uppercase label above titles, `--text-subtle`. Example: "NOW SPINNING".                                                       |
-| **Empty state**      | Centered, a small line drawing (record, crate, ticket — one inline SVG per screen), one sentence, one action if useful.                    |
+| **Empty state**      | An icon from `Icon.tsx` (record, crate, ticket, people) in a dashed outline, one sentence, one action if useful.                           |
 
 **Rating bands** (the number always shows; color is extra):
 
@@ -435,9 +435,9 @@ The back cover: calm and clear.
   spinners) follow the theme.
 - A small `useTheme()` hook in `ui/src/theme/useTheme.ts` reads and writes the choice and sets the
   attribute. It is UI state only.
-- Tauri window: set the window background color in `tauri.conf.json` to `#fef3f0` (light) so no
-  white flash shows before the WebView paints. Dark-mode flash: set the background from Rust with
-  the system theme at window creation (optional, small).
+- Tauri window: `backgroundColor` is `#fef3f0` (paper) in `tauri.conf.json`, so no white flash
+  shows before the WebView paints. Not done: a dark background from Rust for a dark system theme
+  (optional, small); a dark system briefly shows paper at start.
 
 ## File structure
 
@@ -451,15 +451,21 @@ ui/src/
     tokens.css          Scales, semantic tokens (light + dark), type, space, motion
     base.css            Reset, fonts, body, headings, focus ring, reduced motion
     shell.css           Sidebar, rail, bottom tab bar, main area
-    components.css      Buttons, inputs, chips, status, progress, empty states
+    components.css      Buttons, inputs, segmented control, status, layout helpers
+  components/
+    Icon.tsx            Inline SVG icons (also used for the empty states)
+    RatingChip.css, RatingMeter.css, ProgressBar.css   Next to their components
   screens/
-    NowPlaying.css … Settings.css   One file per screen, scoped by [data-screen]
+    NowPlaying.css … Settings.css, LibraryHistory.css   One or two files per screen
   assets/
-    grain.svg, empty-*.svg          Texture and empty-state drawings
+    grain.svg           Paper texture (light theme)
 ```
 
 - `styles.css` is replaced by `styles/*.css`, imported in order in `main.tsx`.
-- Each screen imports its own CSS file at the top of its `.tsx`.
+- Each screen and component imports its own CSS file. The CSS is global, so class names must be
+  unique across screens (Discover uses `.bin-sleeve` because Now Playing has `.sleeve`).
+  `<main data-screen>` is there for rules that need the screen.
+- Empty states use an icon from `Icon.tsx` and a dashed outline, not separate drawings.
 - Keep each CSS file under 300 lines (same rule as TypeScript files).
 - `palette.ts` is the single source of hex values; `tokens.css` must use the same values. The
   contrast test also checks that each hex in `tokens.css` exists in `palette.ts` (parse the file
@@ -486,8 +492,7 @@ and production builds never load it; Vite drops it from the production bundle.
 
 ## Implementation plan
 
-Status: steps 1 and 2 done (Nov 5, 2026). The old screen rules live on, recolored, in
-`screens/*.css` until step 3 replaces them.
+Status: all four steps done (Nov 5, 2026), one commit per step and one per screen in step 3.
 
 Do the work in four steps. Run `pnpm check` after each step. Each step is one commit.
 
@@ -505,16 +510,23 @@ Do the work in four steps. Run `pnpm check` after each step. Each step is one co
 
 ## Acceptance criteria
 
-- [ ] No hex value from the old palette (`#c0c0c0`, `#75baff`, `#d0e8ff`, `#ffc90e`, `#ffff9f`)
+Checked in the dev preview (`pnpm --dir ui dev`, Chromium) with the sample data. Not checked in
+the Tauri window (WKWebView, WebKitGTK, WebView2) or on a phone.
+
+- [x] No hex value from the old palette (`#c0c0c0`, `#75baff`, `#d0e8ff`, `#ffc90e`, `#ffff9f`)
       is left in `ui/src`.
-- [ ] `contrast.test.ts` passes for every allowed pair.
-- [ ] All existing Vitest tests pass with no change to their queries.
-- [ ] Each screen renders in light and dark themes at 375 px, 768 px and 1280 px with no
-      horizontal scroll and no overlap.
-- [ ] Every control has a visible `:focus-visible` ring.
-- [ ] With `prefers-reduced-motion: reduce`, nothing moves.
-- [ ] The exported share image uses the ticket design.
-- [ ] `pnpm check` passes.
+- [x] `contrast.test.ts` passes for every allowed pair (42 pairs).
+- [x] All existing Vitest tests pass with no change to their queries. (Screens keep the tested
+      text in visually hidden spans where the visible text is split into styled parts.)
+- [x] Each screen has no horizontal scroll at 375 px and 768 px (measured), and looks right at
+      1280 px (screenshots). Both themes seen on Now Playing, Settings and the shell; the other
+      screens in one theme each.
+- [~] Every control has a visible focus ring: a global `:focus-visible` rule; the J-card input
+  uses a brick underline instead. Not tabbed through screen by screen.
+- [~] With `prefers-reduced-motion: reduce`, nothing moves: a CSS rule in `base.css` sets all
+  animation and transition times to 0. Not tested with the system setting on.
+- [x] The exported share image uses the ticket design (rendered and checked).
+- [x] `pnpm check` passes.
 
 ## Open questions
 
