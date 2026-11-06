@@ -169,6 +169,11 @@ input[type="radio"] {
   color: var(--chip-top-fg);
 }
 
+.chip[data-band="top"]::after {
+  content: "★";
+  font-size: 0.85em;
+}
+
 /* ---- Status lines and progress ---- */
 
 .status {

@@ -22,13 +22,9 @@ export function RatingChip({ rating, label }: { rating: number | null; label?: s
   }
 
   return (
+    // A 10 gets a star from CSS (`.chip[data-band="top"]::after`), so the text stays the number.
     <span className="chip" data-band={ratingBand(rating)} aria-label={label}>
       {rating}
-      {rating >= 10 && (
-        <span className="chip-star" aria-hidden="true">
-          ★
-        </span>
-      )}
     </span>
   );
 }

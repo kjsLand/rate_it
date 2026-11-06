@@ -22,7 +22,7 @@ test("shows the number, and a dash with no rating", () => {
       <RatingChip rating={null} label="No rating" />
     </>,
   );
-  expect(screen.getByLabelText("Rating 10").textContent).toBe("10★");
+  expect(screen.getByLabelText("Rating 10").textContent).toBe("10");
   expect(screen.getByLabelText("Rating 10").dataset["band"]).toBe("top");
   expect(screen.getByLabelText("No rating").textContent).toBe("–");
 });
