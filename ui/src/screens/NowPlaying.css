@@ -1,0 +1,54 @@
+/* Now Playing. */
+
+.current-song {
+  display: flex;
+  gap: var(--space-5);
+  align-items: flex-start;
+}
+
+.song-name {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  font-weight: 600;
+  line-height: 1.1;
+  margin: 0 0 var(--space-2);
+}
+
+.stars {
+  display: flex;
+  gap: var(--space-1);
+  margin: var(--space-3) 0;
+}
+
+.star {
+  font-size: 1.8rem;
+  min-height: 0;
+  background: none;
+  border: none;
+  border-radius: var(--radius-s);
+  color: var(--border-strong);
+  padding: 0 var(--space-1);
+}
+
+.star:hover:not(:disabled) {
+  background: none;
+}
+
+.star.lit {
+  color: var(--accent);
+}
+
+.log {
+  background: var(--surface-tint);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-m);
+  max-width: 640px;
+}
+
+@media (max-width: 640px) {
+  .current-song {
+    flex-direction: column;
+  }
+}

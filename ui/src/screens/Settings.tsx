@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { useAction, useAsync } from "../components/async";
 import { ActionStatus, LoadStatus } from "../components/Status";
+import { ThemeSwitch } from "../components/ThemeSwitch";
 import {
   accountStatus,
   exportRatingsFile,
@@ -57,6 +58,8 @@ export function Settings() {
         </button>
       </div>
       <ActionStatus action={action} />
+      <h2>Appearance</h2>
+      <ThemeSwitch />
     </section>
   );
 }

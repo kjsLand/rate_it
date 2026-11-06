@@ -1,0 +1,24 @@
+/* Discover. */
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.discover-card {
+  flex: 1 1 200px;
+  padding: var(--space-4);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-1);
+}
+
+.discover-card:nth-child(even) {
+  background: var(--surface-tint);
+}
+
+.discover-card h2 {
+  margin-top: 0;
+}

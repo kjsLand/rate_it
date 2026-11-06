@@ -1,0 +1,21 @@
+/* Share. */
+
+.card {
+  display: flex;
+  gap: var(--space-4);
+  background: var(--surface-tint);
+  padding: var(--space-4);
+  border-radius: var(--radius-m);
+  max-width: 640px;
+}
+
+.card figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.card strong {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+}

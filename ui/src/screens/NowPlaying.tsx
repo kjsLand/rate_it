@@ -1,3 +1,4 @@
+import "./NowPlaying.css";
 import { useState } from "react";
 
 import { errorText, useAsync } from "../components/async";

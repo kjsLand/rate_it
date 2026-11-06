@@ -1,35 +1,25 @@
-/* The app frame: navigation and the main area. Step 2 of docs/UI-SPEC.md redesigns this. */
+/* The app frame (docs/UI-SPEC.md, "App shell"): sidebar on desktop, icon rail on tablet,
+   bottom tab bar with a "More" sheet on phone. One <nav> serves all three. */
 
 .app {
   display: flex;
   min-height: 100vh;
 }
 
-nav {
+/* ---- Sidebar ("the spine"), desktop ≥ 900 px ---- */
+
+.nav {
+  position: sticky;
+  top: 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
-  padding: var(--space-4);
-  min-width: 200px;
+  width: 232px;
+  flex: none;
+  height: 100vh;
+  padding: var(--space-5) var(--space-3);
   background: var(--surface-raised);
   border-right: 1px solid var(--border);
-}
-
-nav button {
-  text-align: left;
-  border-color: transparent;
-  background: transparent;
-}
-
-nav button:hover {
-  background: var(--surface);
-}
-
-nav button[aria-current="page"] {
-  background: var(--surface);
-  border-color: var(--border);
-  box-shadow: inset 3px 0 0 var(--accent);
-  font-weight: 600;
 }
 
 .brand {
@@ -37,28 +27,221 @@ nav button[aria-current="page"] {
   font-size: var(--fs-h2);
   font-style: italic;
   font-weight: 600;
-  margin: 0 0 var(--space-4);
+  letter-spacing: -0.02em;
+  margin: 0 var(--space-3) var(--space-5);
 }
+
+.brand-dot {
+  color: var(--accent-text);
+}
+
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 40px;
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-radius: var(--radius-s);
+  background: transparent;
+  color: var(--text-muted);
+  text-align: left;
+}
+
+.nav-item:hover:not(:disabled) {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.nav-item[aria-current="page"] {
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  box-shadow:
+    inset 3px 0 0 var(--accent),
+    var(--shadow-1);
+}
+
+.nav-item[aria-current="page"] .icon {
+  color: var(--accent-text);
+}
+
+.nav-group {
+  margin: var(--space-5) var(--space-3) var(--space-2);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+.nav-more {
+  display: none;
+}
+
+/* ---- Main area ---- */
 
 main {
   flex: 1;
+  min-width: 0;
   padding: var(--space-6);
-  overflow: auto;
 }
+
+.main-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+/* ---- Icon rail, tablet 641–899 px ---- */
+
+@media (max-width: 899px) {
+  .nav {
+    width: 72px;
+    align-items: center;
+    padding: var(--space-4) var(--space-2);
+  }
+
+  /* The name does not fit the rail: show a small record instead (the text stays for readers). */
+  .brand {
+    margin: 0 0 var(--space-4);
+    font-size: 0;
+  }
+
+  .brand::before {
+    content: "";
+    display: block;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent) 0 22%, var(--umber-950) 24% 100%);
+  }
+
+  .nav-item {
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+  }
+
+  .nav-label,
+  .nav-group {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .nav-sheet {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border);
+  }
+}
+
+/* ---- Bottom tab bar and "More" sheet, phone ≤ 640 px ---- */
 
 @media (max-width: 640px) {
   .app {
-    flex-direction: column;
+    display: block;
   }
 
-  nav {
+  .nav {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 10;
     flex-direction: row;
-    flex-wrap: wrap;
+    justify-content: space-around;
+    width: auto;
+    height: auto;
+    padding: var(--space-1) var(--space-2) calc(var(--space-1) + env(safe-area-inset-bottom));
     border-right: 0;
-    border-bottom: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+  }
+
+  .brand {
+    display: none;
+  }
+
+  .nav > .nav-list {
+    flex-direction: row;
+    flex: 4;
+    justify-content: space-around;
+  }
+
+  .nav-item,
+  .nav-more {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: auto;
+    height: 56px;
+    min-width: 64px;
+    font-size: var(--fs-micro);
+  }
+
+  .nav-more {
+    flex: 1;
+  }
+
+  .nav-more[data-active="true"] {
+    color: var(--accent-text);
+  }
+
+  .nav-label {
+    position: static;
+    width: auto;
+    height: auto;
+    clip-path: none;
+  }
+
+  .nav-item[aria-current="page"] {
+    box-shadow: inset 0 3px 0 var(--accent);
+  }
+
+  .nav-sheet {
+    display: none;
+    position: fixed;
+    inset: auto var(--space-3) calc(72px + env(safe-area-inset-bottom));
+    margin: 0;
+    padding: var(--space-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-m);
+    background: var(--surface);
+    box-shadow: var(--shadow-2);
+  }
+
+  .nav[data-more="open"] .nav-sheet {
+    display: block;
+  }
+
+  .nav-sheet .nav-item {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: var(--space-3);
+    width: 100%;
+    height: 48px;
+    padding: 0 var(--space-3);
+    font-size: var(--fs-body);
+  }
+
+  .nav-sheet .nav-item[aria-current="page"] {
+    box-shadow: inset 3px 0 0 var(--accent);
   }
 
   main {
-    padding: var(--space-4);
+    padding: var(--space-4) var(--space-4) calc(88px + env(safe-area-inset-bottom));
   }
 }

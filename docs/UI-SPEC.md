@@ -48,7 +48,7 @@ Three decisions shape this spec. Read them first:
 
 - No new features and no new Rust commands (except the theme setting, see Open questions).
 - No CSS framework (Tailwind, CSS-in-JS). Plain CSS files with custom properties.
-- No change to screen order or screen names.
+- No change to screen names. (The sidebar groups the screens; see App shell.)
 
 ## Research
 
@@ -238,16 +238,20 @@ All numbers use `font-variant-numeric: tabular-nums`, so columns of ratings line
   - Brand: "rate_it" in Fraunces italic 600, with a brick dot for the underscore.
   - Items: icon + label, 40 px high, `--radius-s`. Active item: `--surface` fill, brick 3 px bar
     on the left, label weight 600. Keep `aria-current="page"` as the only active signal in code.
-  - Bottom of the sidebar: a mini "now spinning" strip (cover 32 px + song name) when a song
-    plays. Optional: only if `nowPlaying` is already loaded by the shell — do not add a second
-    poll.
-- **Tablet 641–899 px:** icon-only rail, 72 px wide, label in a tooltip and `aria-label`.
+  - Two groups: "Listen" (Now Playing, Library, Artist, Discover) without a heading, then
+    "Make" (Share, Build Playlist, Collaborators, Settings) under a micro-caps heading.
+  - Not built: a mini "now spinning" strip. The shell does not load `nowPlaying`, and a second
+    poll is not worth it.
+- **Tablet 641–899 px:** icon-only rail, 72 px wide. The labels stay in the DOM (visually
+  hidden) and in `title`. The brand becomes a small record mark.
 - **Phone ≤ 640 px:** bottom tab bar, 64 px + safe-area inset. Five tabs: Now Playing, Library,
   Artist, Discover, More. "More" opens a sheet with Share, Build Playlist, Collaborators,
-  Settings. The current `App.test.tsx` uses the nav buttons by name; the sheet must keep the same
-  button names.
-- **Icons:** `lucide-react` (ISC license), 20 px, 1.75 stroke. One icon per screen: `disc-3`,
-  `library`, `mic-vocal`, `ticket`, `list-music`, `users`, `compass`, `settings`.
+  Settings; Escape or a choice closes it. Desktop, tablet and phone use the **same** `<nav>`
+  and buttons, styled per breakpoint, so each screen button exists once (`App.test.tsx` finds
+  them by name).
+- **Icons:** inline SVG line drawings in `components/Icon.tsx` (no dependency), 20 px,
+  1.75 stroke: disc, crate, mic, compass, ticket, cassette, users, sliders, plus more, check,
+  alert, play, plus, minus.
 - **Main area:** max content width 1120 px, padding `--space-6` (desktop) / `--space-4` (phone).
 - **Screen accent hook:** `App` sets `data-screen="<id>"` on `<main>`. Screen CSS scopes its
   rules with `[data-screen="now"] …`. This is the only change to `App.tsx` logic.
@@ -469,14 +473,21 @@ ui/src/
 | `@fontsource-variable/fraunces`        | OFL-1.1 | Display font, self-hosted |
 | `@fontsource-variable/instrument-sans` | OFL-1.1 | UI font, self-hosted      |
 | `@fontsource/ibm-plex-mono`            | OFL-1.1 | Numbers, self-hosted      |
-| `lucide-react`                         | ISC     | Icons (tree-shaken)       |
 
 Pin exact versions, like the current `package.json`. `knip` must see each one used.
+Icons are inline SVG (see App shell), so `lucide-react` is not needed.
+
+## Dev preview
+
+`pnpm --dir ui dev` in a normal browser has no Tauri, so every command fails. `main.tsx` then
+loads `ui/src/ipc/devBackend.ts`, which installs `mockIPC` with sample data (covers are inline
+SVG). The check is `import.meta.env.DEV && !("__TAURI_INTERNALS__" in window)`, so `tauri dev`
+and production builds never load it; Vite drops it from the production bundle.
 
 ## Implementation plan
 
-Status: step 1 done (Nov 5, 2026). The old rules live on in `styles/shell.css` and
-`styles/components.css`, recolored with the semantic tokens, until steps 2 and 3 replace them.
+Status: steps 1 and 2 done (Nov 5, 2026). The old screen rules live on, recolored, in
+`screens/*.css` until step 3 replaces them.
 
 Do the work in four steps. Run `pnpm check` after each step. Each step is one commit.
 
@@ -507,14 +518,13 @@ Do the work in four steps. Run `pnpm check` after each step. Each step is one co
 
 ## Open questions
 
-- [ ] **Theme storage.** Keep the theme choice in `localStorage` (UI-only, no Rust change —
-      recommended), or in the `app_settings` table through a new Rust command (survives a
-      WebView data reset)?
-- [ ] **Phone navigation.** Bottom bar with "More" sheet (recommended), or a scrolling top tab
-      bar with all eight screens (simpler, less thumb-friendly)?
-- [ ] **Icons.** Add `lucide-react`, or draw the eight icons as inline SVG files in
-      `assets/` (no new dependency)?
-- [ ] **Now Playing disc spin.** Keep the slow spin while a song plays, or a still disc only?
+Decided without a human in the loop, from the recommendations. Change them here if the owner
+decides differently.
+
+- [x] **Theme storage.** `localStorage` key `rate_it.theme` (UI only, no Rust change).
+- [x] **Phone navigation.** Bottom bar with a "More" sheet.
+- [x] **Icons.** Inline SVG in `components/Icon.tsx`, no new dependency.
+- [x] **Now Playing disc spin.** Slow spin while a song plays; none under reduced motion.
 
 ## Sources
 

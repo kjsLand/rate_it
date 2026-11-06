@@ -1,3 +1,4 @@
+import "./Collaborators.css";
 import { useState } from "react";
 
 import { useAction } from "../components/async";

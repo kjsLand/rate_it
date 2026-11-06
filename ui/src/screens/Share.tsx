@@ -1,3 +1,4 @@
+import "./Share.css";
 import { useState } from "react";
 
 import { cardPng } from "../components/cardImage";

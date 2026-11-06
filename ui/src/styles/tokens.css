@@ -111,6 +111,14 @@
   --danger: var(--brick-700);
   --shadow-1: 0 1px 2px rgb(60 35 25 / 8%), 0 2px 8px rgb(60 35 25 / 6%);
   --shadow-2: 0 2px 4px rgb(60 35 25 / 8%), 0 4px 16px rgb(60 35 25 / 6%);
+  --chip-low-bg: var(--umber-100);
+  --chip-low-fg: var(--umber-700);
+  --chip-mid-bg: var(--rose-200);
+  --chip-mid-fg: var(--umber-900);
+  --chip-high-bg: var(--brick-100);
+  --chip-high-fg: var(--brick-700);
+  --chip-top-bg: var(--brick-500);
+  --chip-top-fg: var(--white);
 }
 
 /* Dark theme ("Listening Room"): the same values twice, for the system setting and the
@@ -136,6 +144,14 @@
     --danger: var(--brick-300);
     --shadow-1: none;
     --shadow-2: none;
+    --chip-low-bg: var(--night-3);
+    --chip-low-fg: var(--umber-300);
+    --chip-mid-bg: var(--rose-800);
+    --chip-mid-fg: var(--rose-50);
+    --chip-high-bg: var(--brick-900);
+    --chip-high-fg: var(--brick-200);
+    --chip-top-bg: var(--brick-400);
+    --chip-top-fg: var(--night);
   }
 }
 
@@ -159,4 +175,12 @@
   --danger: var(--brick-300);
   --shadow-1: none;
   --shadow-2: none;
+  --chip-low-bg: var(--night-3);
+  --chip-low-fg: var(--umber-300);
+  --chip-mid-bg: var(--rose-800);
+  --chip-mid-fg: var(--rose-50);
+  --chip-high-bg: var(--brick-900);
+  --chip-high-fg: var(--brick-200);
+  --chip-top-bg: var(--brick-400);
+  --chip-top-fg: var(--night);
 }

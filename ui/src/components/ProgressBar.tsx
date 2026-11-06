@@ -13,9 +13,12 @@ export function ProgressBar({
 
   return (
     <div className="progress">
+      <span className="progress-disc" aria-hidden="true" />
       <progress max={total || 1} value={done} aria-label="Progress" />
-      <span>{total > 0 ? `${done} / ${total} albums` : "Starting…"}</span>
-      <button type="button" onClick={onCancel}>
+      <span className="progress-label">
+        {total > 0 ? `${done} / ${total} albums` : "Starting…"}
+      </span>
+      <button type="button" className="quiet" onClick={onCancel}>
         Cancel
       </button>
     </div>

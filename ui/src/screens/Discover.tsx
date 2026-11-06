@@ -1,3 +1,4 @@
+import "./Discover.css";
 import { useAction } from "../components/async";
 import { ProgressBar } from "../components/ProgressBar";
 import { ActionStatus } from "../components/Status";
