@@ -1,18 +1,22 @@
 /* The rating meter: ten bars that rise from 1 to 10 (Now Playing). */
 
+/* The meter shrinks with its column: bars go from 28 px down to 16 px wide. */
 .meter {
   display: flex;
+  flex: 0 1 334px;
   align-items: flex-end;
   gap: 6px;
+  min-width: 0;
 }
 
 .meter-bar {
   display: flex;
+  flex: 0 1 28px;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
   gap: var(--space-1);
-  width: 28px;
+  min-width: 16px;
   min-height: 0;
   padding: 0;
   border: 0;

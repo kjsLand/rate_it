@@ -241,7 +241,7 @@
 
 /* ---- Small screens ---- */
 
-@media (max-width: 899px) {
+@media (max-width: 1099px) {
   .stage-body {
     flex-direction: column;
     align-items: flex-start;
@@ -265,10 +265,6 @@
 @media (max-width: 640px) {
   .meter {
     gap: 3px;
-  }
-
-  .meter-bar {
-    width: 24px;
   }
 
   .setlist li {
