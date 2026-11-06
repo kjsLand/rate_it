@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { useAction, useAsync } from "../components/async";
+import { Icon } from "../components/Icon";
 import { ActionStatus, LoadStatus } from "../components/Status";
 import { ThemeSwitch } from "../components/ThemeSwitch";
 import {
@@ -13,6 +14,7 @@ import {
   signOut,
 } from "../ipc";
 import type { AccountStatus, ImportReportDto } from "../ipc";
+import "./Settings.css";
 
 function reportText(report: ImportReportDto | null): string {
   if (report === null) return "No file selected";
@@ -20,13 +22,13 @@ function reportText(report: ImportReportDto | null): string {
   return `Imported ${report.imported}, skipped ${report.skipped}, failed ${report.failed}`;
 }
 
-/** Sign-in and Settings: Client ID, sign in and out, import and export. */
+/** Sign-in and Settings ("The Fine Print"): Client ID, sign in and out, import, export, theme. */
 export function Settings() {
   const status = useAsync(accountStatus, undefined);
   const { action, run } = useAction();
 
   return (
-    <section aria-labelledby="settings-title">
+    <section aria-labelledby="settings-title" className="fine-print">
       <header className="screen-header">
         <h1 id="settings-title">Settings</h1>
       </header>
@@ -38,28 +40,35 @@ export function Settings() {
           onAction={(task, done) => void run(task, done).then(status.reload)}
         />
       )}
-      <h2>Ratings</h2>
-      <div className="button-row">
-        <button type="button" onClick={() => void run(importLegacyFile, reportText)}>
-          Import rate.txt
-        </button>
-        <button type="button" onClick={() => void run(importRatingsFile, reportText)}>
-          Import
-        </button>
-        <button
-          type="button"
-          onClick={() =>
-            void run(exportRatingsFile, (path) =>
-              path === null ? "Export cancelled" : `Exported to ${path}`,
-            )
-          }
-        >
-          Export
-        </button>
+      <div className="panel">
+        <h2>Ratings</h2>
+        <div className="button-row">
+          <button type="button" onClick={() => void run(importLegacyFile, reportText)}>
+            <Icon name="fileIn" />
+            Import rate.txt
+          </button>
+          <button type="button" onClick={() => void run(importRatingsFile, reportText)}>
+            <Icon name="fileIn" />
+            Import
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              void run(exportRatingsFile, (path) =>
+                path === null ? "Export cancelled" : `Exported to ${path}`,
+              )
+            }
+          >
+            <Icon name="fileOut" />
+            Export
+          </button>
+        </div>
+        <ActionStatus action={action} />
       </div>
-      <ActionStatus action={action} />
-      <h2>Appearance</h2>
-      <ThemeSwitch />
+      <div className="panel">
+        <h2>Appearance</h2>
+        <ThemeSwitch />
+      </div>
     </section>
   );
 }
@@ -76,15 +85,16 @@ function Account({
   const [clientId, setClientId] = useState(account.clientId ?? "");
 
   return (
-    <div className="account">
+    <div className="panel account">
       <h2>Spotify account</h2>
-      <p>
+      <p className="pill" data-on={account.signedIn}>
+        {account.signedIn && <Icon name="check" />}
         {account.signedIn
           ? `Signed in${account.displayName === null ? "" : ` as ${account.displayName}`}`
           : "Not signed in"}
       </p>
       <form
-        className="button-row"
+        className="client-id"
         onSubmit={(e) => {
           e.preventDefault();
           onAction(
@@ -94,7 +104,7 @@ function Account({
         }}
       >
         <label>
-          Spotify Client ID
+          <span className="field-label">Spotify Client ID</span>
           <input value={clientId} required onChange={(e) => setClientId(e.target.value.trim())} />
         </label>
         <button type="submit" disabled={busy || clientId.length === 0}>
@@ -102,8 +112,8 @@ function Account({
         </button>
       </form>
       <p className="hint">
-        Make an app in the Spotify developer dashboard and add the redirect URI
-        http://127.0.0.1/callback (desktop) or rateit://callback (mobile).
+        Make an app in the Spotify developer dashboard and add the redirect URI{" "}
+        <code>http://127.0.0.1/callback</code> (desktop) or <code>rateit://callback</code> (mobile).
       </p>
       {account.signedIn ? (
         <button type="button" disabled={busy} onClick={() => onAction(signOut, () => "Signed out")}>
@@ -112,6 +122,7 @@ function Account({
       ) : (
         <button
           type="button"
+          className="primary"
           disabled={busy || account.clientId === null}
           onClick={() =>
             onAction(signIn, (s) =>

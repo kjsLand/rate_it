@@ -15,7 +15,9 @@ export type IconName =
   | "alert"
   | "play"
   | "plus"
-  | "minus";
+  | "minus"
+  | "fileIn"
+  | "fileOut";
 
 // 24 x 24 line drawings, stroke only (except where a fill is set). Drawn for this app.
 const DRAWINGS: Readonly<Record<IconName, ReactNode>> = {
@@ -84,6 +86,8 @@ const DRAWINGS: Readonly<Record<IconName, ReactNode>> = {
   play: <path d="M8 5.5v13l10.5-6.5z" fill="currentColor" />,
   plus: <path d="M12 5v14M5 12h14" />,
   minus: <path d="M5 12h14" />,
+  fileIn: <path d="M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4M12 4v11M7.5 10.5 12 15l4.5-4.5" />,
+  fileOut: <path d="M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4M12 15V4M7.5 8.5 12 4l4.5 4.5" />,
 };
 
 /** A decorative icon. It is hidden from screen readers: the button or text next to it names it. */
