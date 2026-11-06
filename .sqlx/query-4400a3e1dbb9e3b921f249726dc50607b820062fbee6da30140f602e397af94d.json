@@ -1,0 +1,98 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT t.id AS \"track_id!\", t.name AS \"track_name!\",\n             t.album_id AS \"album_id?\", t.album_name AS \"album_name?\",\n             r.rating AS \"rating!\", r.rated_at AS \"rated_at!\", r.source AS \"source!\"\n           FROM ratings r JOIN tracks t ON t.id = r.track_id\n           ORDER BY r.id",
+  "describe": {
+    "columns": [
+      {
+        "name": "track_id!",
+        "ordinal": 0,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "tracks",
+            "name": "id"
+          }
+        }
+      },
+      {
+        "name": "track_name!",
+        "ordinal": 1,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "tracks",
+            "name": "name"
+          }
+        }
+      },
+      {
+        "name": "album_id?",
+        "ordinal": 2,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "tracks",
+            "name": "album_id"
+          }
+        }
+      },
+      {
+        "name": "album_name?",
+        "ordinal": 3,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "tracks",
+            "name": "album_name"
+          }
+        }
+      },
+      {
+        "name": "rating!",
+        "ordinal": 4,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "ratings",
+            "name": "rating"
+          }
+        }
+      },
+      {
+        "name": "rated_at!",
+        "ordinal": 5,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "ratings",
+            "name": "rated_at"
+          }
+        }
+      },
+      {
+        "name": "source!",
+        "ordinal": 6,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "ratings",
+            "name": "source"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": [
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "4400a3e1dbb9e3b921f249726dc50607b820062fbee6da30140f602e397af94d"
+}

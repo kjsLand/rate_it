@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO tracks (id, name, album_id, album_name) VALUES (?1, ?2, ?3, ?4)\n         ON CONFLICT(id) DO UPDATE SET name = excluded.name,\n           album_id = COALESCE(excluded.album_id, tracks.album_id),\n           album_name = COALESCE(excluded.album_name, tracks.album_name)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 4
+    },
+    "nullable": []
+  },
+  "hash": "c50c9d74128719cb79e344a8f30396fe832916b9f223ee727eebd5c61b7078da"
+}

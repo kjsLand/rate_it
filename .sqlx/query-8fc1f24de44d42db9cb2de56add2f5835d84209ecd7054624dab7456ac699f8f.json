@@ -1,0 +1,122 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT c.id AS \"rating_id!\", t.id AS \"track_id!\", t.name AS \"track_name!\",\n                 t.album_id AS \"album_id?\", t.album_name AS \"album_name?\",\n                 a.id AS \"artist_id!\", a.name AS \"artist_name!\",\n                 c.rating AS \"rating!\", c.rated_at AS \"rated_at!\"\n               FROM current_ratings c JOIN tracks t ON t.id = c.track_id\n               JOIN track_artists ta ON ta.track_id = t.id AND ta.position = 0\n               JOIN artists a ON a.id = ta.artist_id\n               WHERE a.id = ?1\n               ORDER BY c.rating DESC, t.name COLLATE NOCASE",
+  "describe": {
+    "columns": [
+      {
+        "name": "rating_id!",
+        "ordinal": 0,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "ratings",
+            "name": "id"
+          }
+        }
+      },
+      {
+        "name": "track_id!",
+        "ordinal": 1,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "tracks",
+            "name": "id"
+          }
+        }
+      },
+      {
+        "name": "track_name!",
+        "ordinal": 2,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "tracks",
+            "name": "name"
+          }
+        }
+      },
+      {
+        "name": "album_id?",
+        "ordinal": 3,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "tracks",
+            "name": "album_id"
+          }
+        }
+      },
+      {
+        "name": "album_name?",
+        "ordinal": 4,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "tracks",
+            "name": "album_name"
+          }
+        }
+      },
+      {
+        "name": "artist_id!",
+        "ordinal": 5,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "artists",
+            "name": "id"
+          }
+        }
+      },
+      {
+        "name": "artist_name!",
+        "ordinal": 6,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "artists",
+            "name": "name"
+          }
+        }
+      },
+      {
+        "name": "rating!",
+        "ordinal": 7,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "ratings",
+            "name": "rating"
+          }
+        }
+      },
+      {
+        "name": "rated_at!",
+        "ordinal": 8,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "ratings",
+            "name": "rated_at"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "8fc1f24de44d42db9cb2de56add2f5835d84209ecd7054624dab7456ac699f8f"
+}
