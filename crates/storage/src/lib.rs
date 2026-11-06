@@ -35,6 +35,10 @@ pub trait RatingsRepository: Send + Sync + std::fmt::Debug {
     /// Adds a new rating row. Old rows stay, so the history stays.
     async fn add_rating(&self, new: &NewRating) -> StorageResult<RatedTrack>;
 
+    /// Adds a new rating row for a track that is in the database already.
+    /// Returns `None` if the track is not known. The artist links do not change.
+    async fn rerate(&self, track_id: &str, rating: Rating) -> StorageResult<Option<RatedTrack>>;
+
     /// The last rating of a track, if it has one.
     async fn current_rating(&self, track_id: &str) -> StorageResult<Option<RatedTrack>>;
 

@@ -233,6 +233,23 @@ impl RatingsRepository for SqliteRepository {
         to_rated_track!(row)
     }
 
+    async fn rerate(&self, track_id: &str, rating: Rating) -> StorageResult<Option<RatedTrack>> {
+        let value = i64::from(rating);
+        let inserted = sqlx::query!(
+            "INSERT INTO ratings (track_id, rating, source)
+             SELECT id, ?2, 'app' FROM tracks WHERE id = ?1",
+            track_id,
+            value
+        )
+        .execute(&self.pool)
+        .await?
+        .rows_affected();
+        if inserted == 0 {
+            return Ok(None);
+        }
+        self.current_rating(track_id).await
+    }
+
     async fn current_rating(&self, track_id: &str) -> StorageResult<Option<RatedTrack>> {
         let row = sqlx::query!(
             r#"SELECT r.id AS "rating_id!", t.id AS "track_id!", t.name AS "track_name!",

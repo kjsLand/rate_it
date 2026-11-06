@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO ratings (track_id, rating, source)\n             SELECT id, ?2, 'app' FROM tracks WHERE id = ?1",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 2
+    },
+    "nullable": []
+  },
+  "hash": "303d59623a7c9d355c1a0c086bd143ce1e226f52ff4df1651e5b345989101a65"
+}

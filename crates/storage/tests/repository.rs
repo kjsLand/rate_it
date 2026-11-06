@@ -249,3 +249,29 @@ async fn open_creates_file_database_with_wal() {
     );
     std::fs::remove_dir_all(&dir).unwrap();
 }
+
+#[tokio::test]
+async fn rerate_adds_row_for_known_track_and_keeps_features() {
+    let repo = SqliteRepository::in_memory().await.unwrap();
+    assert_eq!(
+        repo.rerate("t1", Rating::new(5).unwrap()).await.unwrap(),
+        None
+    );
+    let t = track("t1", "Song", &[("a1", "Artist"), ("a2", "Feature")]);
+    repo.add_rating(&rating(t, 3, RatingSource::App))
+        .await
+        .unwrap();
+    let after = repo
+        .rerate("t1", Rating::new(8).unwrap())
+        .await
+        .unwrap()
+        .unwrap();
+    assert_eq!(after.rating.value(), 8);
+    assert_eq!(repo.rating_history("t1").await.unwrap().len(), 2);
+    let exported = repo.export_ratings().await.unwrap();
+    assert_eq!(
+        exported[1].track.artists.len(),
+        2,
+        "the feature artist stays linked"
+    );
+}
