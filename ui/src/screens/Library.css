@@ -1,0 +1,247 @@
+/* Library — "The Crate" (docs/UI-SPEC.md): flip through a crate of records, artist by artist. */
+
+.crate .columns {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.crate-empty {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--text-subtle);
+}
+
+.crate-empty .empty {
+  margin: 0;
+}
+
+.crate-hint {
+  display: grid;
+  place-items: center;
+  min-height: 240px;
+  margin: 0;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-m);
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-style: italic;
+}
+
+/* ---- Artist dividers ---- */
+
+.dividers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.divider {
+  justify-content: flex-start;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 72px;
+  padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  text-align: left;
+}
+
+.divider[aria-pressed="true"] {
+  border-color: transparent;
+  box-shadow:
+    inset 3px 0 0 var(--accent),
+    var(--shadow-1);
+}
+
+.divider[aria-pressed="true"],
+.divider[aria-pressed="true"]:hover:not(:disabled) {
+  background: var(--surface);
+}
+
+.divider-tab {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 56px;
+  border-radius: var(--radius-s) var(--radius-s) var(--radius-sleeve) var(--radius-sleeve);
+  background: var(--rose-200);
+  color: var(--umber-900);
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: 600;
+}
+
+.divider[aria-pressed="true"] .divider-tab {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.divider-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.divider-name {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.divider-meta {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--text-muted);
+}
+
+.divider-bar {
+  display: block;
+  height: 4px;
+  margin-top: var(--space-1);
+  border-radius: var(--radius-pill);
+  background: var(--surface-raised);
+  overflow: hidden;
+}
+
+.divider-bar span {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+}
+
+/* ---- Tracks of the selected artist ---- */
+
+.artist-tracks h2 {
+  margin-top: 0;
+}
+
+.crate-back {
+  display: none;
+}
+
+.track-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+
+.track-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto auto auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.track-row:hover {
+  background: var(--surface-raised);
+}
+
+.track-row > .status,
+.track-row > .history,
+.track-row > .track-hint {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.track-name {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+}
+
+.stepper input:not([type="checkbox"], [type="radio"]) {
+  width: 3.5rem;
+  min-height: 36px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-mono);
+  text-align: center;
+  appearance: textfield;
+}
+
+.stepper input::-webkit-inner-spin-button,
+.stepper input::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+.stepper:has(input[aria-invalid="true"]) {
+  border: 2px solid var(--danger);
+}
+
+.stepper input[aria-invalid="true"] {
+  border: 0;
+}
+
+button.step {
+  width: 36px;
+  min-height: 36px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+}
+
+button.small {
+  min-height: 32px;
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--fs-small);
+}
+
+.track-hint {
+  color: var(--danger);
+}
+
+/* ---- One pane at a time below 900 px ---- */
+
+@media (max-width: 899px) {
+  .crate .columns {
+    grid-template-columns: 1fr;
+  }
+
+  .crate[data-open="true"] .dividers,
+  .crate-hint {
+    display: none;
+  }
+
+  .crate-back {
+    display: inline-flex;
+    margin-bottom: var(--space-2);
+  }
+
+  .track-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .track-row .stepper {
+    grid-column: 1;
+    justify-self: start;
+  }
+}

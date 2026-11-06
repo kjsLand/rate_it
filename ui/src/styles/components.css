@@ -1,0 +1,258 @@
+/* Shared controls (docs/UI-SPEC.md, "Shared components"). Screen rules live in screens/*.css. */
+
+/* ---- Buttons: secondary (default), primary, quiet ---- */
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+button:hover:not(:disabled) {
+  background: var(--surface-raised);
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+button.primary,
+button[type="submit"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+
+button.primary:hover:not(:disabled),
+button[type="submit"]:hover:not(:disabled) {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+button.quiet {
+  min-height: 32px;
+  padding: var(--space-1) var(--space-2);
+  border-color: transparent;
+  background: transparent;
+  color: var(--accent-text);
+}
+
+button.quiet:hover:not(:disabled) {
+  background: transparent;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+@media (pointer: coarse) {
+  button {
+    min-height: 44px;
+  }
+}
+
+/* ---- Inputs ---- */
+
+input:not([type="checkbox"], [type="radio"]),
+select {
+  min-height: 40px;
+  margin-left: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-s);
+  background: var(--surface);
+}
+
+input[aria-invalid="true"] {
+  border: 2px solid var(--danger);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--accent);
+  width: 18px;
+  height: 18px;
+}
+
+/* ---- Segmented control (radio group) ---- */
+
+.segmented {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+}
+
+.segment {
+  position: relative;
+}
+
+.segment input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.segment span {
+  display: block;
+  padding: var(--space-1) var(--space-4);
+  border-radius: var(--radius-pill);
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.segment input:checked + span {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+/* A segmented group of toggle buttons (aria-pressed), for choices that run an action. */
+.segmented .segment-button {
+  min-height: 32px;
+  padding: var(--space-1) var(--space-4);
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.segmented .segment-button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.segment input:focus-visible + span {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* ---- Status lines and progress ---- */
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-muted);
+  font-size: var(--fs-small);
+}
+
+.status.error {
+  color: var(--danger);
+}
+
+.status.ok {
+  color: var(--success);
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 800ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* ---- Layout helpers ---- */
+
+.icon {
+  flex: none;
+}
+
+.screen-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.screen-header h1 {
+  margin: 0;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  margin: var(--space-3) 0;
+}
+
+.eyebrow {
+  margin: 0 0 var(--space-1);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+.panel {
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+}
+
+.empty {
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.hint {
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}
+
+.cover {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--radius-sleeve);
+  box-shadow: var(--shadow-2);
+}
+
+/* A dotted leader between a name and a value, as in liner-note credits. */
+.leader {
+  flex: 1;
+  min-width: var(--space-4);
+  border-bottom: 2px dotted var(--border-strong);
+  opacity: 0.5;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

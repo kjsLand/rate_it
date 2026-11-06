@@ -141,11 +141,14 @@ fn check_timestamp(at: &str) -> StorageResult<()> {
 }
 
 /// Tells if an import must skip `row`.
+/// A duplicate row has the same track, time and rating: two ratings of one song can share a
+/// millisecond, so the time alone does not identify a row.
 async fn must_skip(
     tx: &mut Transaction<'_, Sqlite>,
     row: &NewRating,
     mode: ImportMode,
 ) -> StorageResult<bool> {
+    let rating = i64::from(row.rating);
     let count = match (mode, &row.rated_at) {
         (ImportMode::SkipRatedTracks, _) | (ImportMode::SkipDuplicateRows, None) => {
             sqlx::query_scalar!(
@@ -155,13 +158,17 @@ async fn must_skip(
             .fetch_one(&mut **tx)
             .await?
         }
-        (ImportMode::SkipDuplicateRows, Some(at)) => sqlx::query_scalar!(
-            r#"SELECT COUNT(*) AS "n!: i64" FROM ratings WHERE track_id = ?1 AND rated_at = ?2"#,
-            row.track.id,
-            at
-        )
-        .fetch_one(&mut **tx)
-        .await?,
+        (ImportMode::SkipDuplicateRows, Some(at)) => {
+            sqlx::query_scalar!(
+                r#"SELECT COUNT(*) AS "n!: i64" FROM ratings
+               WHERE track_id = ?1 AND rated_at = ?2 AND rating = ?3"#,
+                row.track.id,
+                at,
+                rating
+            )
+            .fetch_one(&mut **tx)
+            .await?
+        }
     };
     Ok(count > 0)
 }

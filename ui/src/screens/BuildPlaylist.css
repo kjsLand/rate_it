@@ -1,0 +1,173 @@
+/* Build Playlist — "The Mixtape" (docs/UI-SPEC.md): make a tape for a friend. */
+
+.mixtape {
+  max-width: 720px;
+}
+
+/* ---- The J-card: a cassette label for the name ---- */
+
+.jcard {
+  position: relative;
+  display: block;
+  padding: var(--space-5) var(--space-5) var(--space-4) 112px;
+  border-radius: var(--radius-m);
+  background:
+    repeating-linear-gradient(180deg, transparent 0 31px, var(--rose-200) 31px 32px) 0 56px / 100%
+      100% no-repeat,
+    var(--rose-100);
+  color: var(--umber-950);
+  box-shadow: var(--shadow-1);
+}
+
+.jcard .eyebrow {
+  color: var(--umber-700);
+}
+
+.jcard input:not([type="checkbox"], [type="radio"]) {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--umber-950);
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-style: italic;
+}
+
+.jcard input::placeholder {
+  color: var(--umber-500);
+}
+
+.jcard input:focus-visible {
+  outline: none;
+  border-bottom-color: var(--brick-500);
+}
+
+.jcard-reels {
+  position: absolute;
+  top: 50%;
+  left: var(--space-5);
+  display: flex;
+  gap: var(--space-2);
+  transform: translateY(-50%);
+}
+
+.jcard-reels span {
+  width: 32px;
+  height: 32px;
+  border: 6px solid var(--umber-700);
+  border-radius: 50%;
+  background: var(--rose-100);
+}
+
+.mix-intro {
+  margin: var(--space-5) 0 var(--space-3);
+  color: var(--text-muted);
+}
+
+/* ---- Artist rows ---- */
+
+.picks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.pick {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  transition: box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.pick[data-on="true"] {
+  border-color: transparent;
+  box-shadow:
+    inset 3px 0 0 var(--accent),
+    var(--shadow-1);
+}
+
+.pick-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 40px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pick-meta {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--text-muted);
+}
+
+select.pick-min {
+  margin: 0;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+}
+
+select.pick-min:disabled {
+  opacity: 0.45;
+}
+
+/* ---- Sticky bar with the count and the submit button ---- */
+
+.mix-bar {
+  position: sticky;
+  bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  box-shadow: var(--shadow-2);
+}
+
+.mix-count {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}
+
+@media (max-width: 640px) {
+  .jcard {
+    padding-left: var(--space-5);
+    padding-top: 64px;
+  }
+
+  .jcard-reels {
+    top: var(--space-5);
+    transform: none;
+  }
+
+  .pick {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .pick-meta {
+    display: none;
+  }
+
+  .mix-bar {
+    bottom: calc(88px + env(safe-area-inset-bottom));
+  }
+}

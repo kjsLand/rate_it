@@ -1,0 +1,61 @@
+/* Library rating history — "the run-out groove": a timeline of ratings. */
+
+.history {
+  position: relative;
+  list-style: none;
+  margin: var(--space-2) 0 0;
+  padding: 0 0 0 var(--space-5);
+}
+
+.history::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 6px;
+  width: 2px;
+  background: var(--border);
+}
+
+.history li {
+  position: relative;
+  padding: var(--space-1) 0;
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}
+
+.history li::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: calc(-1 * var(--space-5) + 2px);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-strong);
+  transform: translateY(-50%);
+}
+
+.history li[data-current="true"]::before {
+  background: var(--accent);
+}
+
+.history-rating {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.history time {
+  font-family: var(--font-mono);
+}
+
+.tag {
+  margin-left: var(--space-1);
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--surface-raised);
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}

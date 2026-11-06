@@ -1,0 +1,82 @@
+/* Settings — "The Fine Print" (docs/UI-SPEC.md): the back cover, calm and clear. */
+
+.fine-print {
+  max-width: 640px;
+}
+
+.fine-print .panel {
+  margin-bottom: var(--space-4);
+}
+
+/* Section titles as micro-caps eyebrows, like the small print on a sleeve. */
+.fine-print .panel h2 {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--surface-raised);
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.pill[data-on="true"] {
+  background: var(--chip-low-bg);
+  color: var(--chip-low-fg);
+}
+
+.client-id {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-2);
+  margin: var(--space-3) 0;
+}
+
+.client-id label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+  min-width: 220px;
+}
+
+.field-label {
+  font-size: var(--fs-small);
+  font-weight: 600;
+}
+
+.client-id input:not([type="checkbox"], [type="radio"]) {
+  margin: 0;
+  font-family: var(--font-mono);
+}
+
+/* The Save button of the Client ID is secondary; the sign-in button is the main action. */
+.client-id button[type="submit"] {
+  background: var(--surface);
+  border-color: var(--border-strong);
+  color: var(--text);
+  font-weight: 500;
+}
+
+.client-id button[type="submit"]:hover:not(:disabled) {
+  background: var(--surface-raised);
+  border-color: var(--border-strong);
+}
+
+.hint code {
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-s);
+  background: var(--surface-raised);
+  color: var(--text);
+}

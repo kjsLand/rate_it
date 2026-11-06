@@ -1,0 +1,148 @@
+/* Share — "The Ticket Stub" (docs/UI-SPEC.md): a rating card looks like a concert ticket. */
+
+.ticket-empty {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 640px;
+  margin-top: var(--space-5);
+  padding: var(--space-6);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-m);
+  color: var(--text-muted);
+}
+
+.ticket-empty p {
+  margin: 0;
+}
+
+.ticket {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 140px;
+  max-width: 680px;
+  margin: var(--space-5) 0 0;
+  filter: drop-shadow(0 2px 6px rgb(60 35 25 / 12%));
+}
+
+/* ---- The body ---- */
+
+.ticket-body {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-radius: var(--radius-m) 0 0 var(--radius-m);
+  background: var(--surface-tint);
+  /* The two half-circle notches of the perforation. */
+  -webkit-mask:
+    radial-gradient(circle at 100% 0, transparent 12px, #000 12.5px) top / 100% 51% no-repeat,
+    radial-gradient(circle at 100% 100%, transparent 12px, #000 12.5px) bottom / 100% 51% no-repeat;
+  mask:
+    radial-gradient(circle at 100% 0, transparent 12px, #000 12.5px) top / 100% 51% no-repeat,
+    radial-gradient(circle at 100% 100%, transparent 12px, #000 12.5px) bottom / 100% 51% no-repeat;
+}
+
+.ticket-cover {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: var(--radius-sleeve);
+}
+
+.ticket-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.ticket-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.ticket-subtitle {
+  color: var(--text-muted);
+}
+
+.ticket-lines {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: var(--space-3) 0 0;
+  list-style: none;
+  border-top: 1px dashed var(--border-strong);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+}
+
+.ticket-lines li {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: 2px 0;
+}
+
+/* ---- The stub ---- */
+
+.ticket-stub {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5) var(--space-3);
+  border-left: 2px dashed var(--rose-300);
+  border-radius: 0 var(--radius-m) var(--radius-m) 0;
+  background: var(--accent);
+  color: var(--on-accent);
+  -webkit-mask:
+    radial-gradient(circle at 0 0, transparent 12px, #000 12.5px) top / 100% 51% no-repeat,
+    radial-gradient(circle at 0 100%, transparent 12px, #000 12.5px) bottom / 100% 51% no-repeat;
+  mask:
+    radial-gradient(circle at 0 0, transparent 12px, #000 12.5px) top / 100% 51% no-repeat,
+    radial-gradient(circle at 0 100%, transparent 12px, #000 12.5px) bottom / 100% 51% no-repeat;
+}
+
+.ticket-score {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.ticket-max {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+}
+
+.ticket-brand {
+  position: absolute;
+  bottom: var(--space-4);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 640px) {
+  .ticket {
+    grid-template-columns: minmax(0, 1fr) 96px;
+  }
+
+  .ticket-body {
+    grid-template-columns: 1fr;
+  }
+
+  .ticket-cover {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .ticket-score {
+    font-size: var(--fs-h1);
+  }
+}

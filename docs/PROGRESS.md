@@ -36,6 +36,7 @@ Legend: `[x]` done, `[~]` partly done, `[ ]` not started.
 - [~] Phase 2: `spotify` crate (client, PKCE, refresh, 204/401/429/timeout tests) and keyring store (`src-tauri/src/token_store.rs`) done. Not verified: a real sign-in, and "more than 1 hour without a new sign-in" (needs a Spotify Client ID).
 - [~] Phase 3: all screens of the Feature parity table are built (`ui/src/screens/`), with Vitest + mockIPC tests. `pnpm check` passes. `pnpm tauri dev` starts the app on macOS and makes the database (both migrations applied). Not done: WebDriver end-to-end tests (`tauri-driver` runs on Linux and Windows only; they also need a setting to point the client at a fake Spotify server); a manual run against real Spotify.
 - [~] Phase 4: code paths exist: `rateit://callback` deep link sign-in (`cfg(mobile)`), file token store, JSON export/import. Not done: `tauri android init` / `tauri ios init`, native share sheet (`tauri-plugin-sharesheet`), device tests.
+- [x] UI overhaul (`docs/UI-SPEC.md`, "Liner Notes"): palette and tokens with a contrast test, self-hosted fonts, one `<nav>` as sidebar / rail / phone tab bar, theme switch (Settings > Appearance), a theme per screen, ticket-style share image, paper grain, window background. Checked in the dev preview (`pnpm --dir ui dev` loads `ui/src/ipc/devBackend.ts` sample data outside Tauri); not checked in the Tauri window or on a phone.
 - [ ] Phase 5: retire Python app (owner action)
 
 ## Next steps

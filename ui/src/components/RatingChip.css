@@ -1,0 +1,40 @@
+/* Rating chip: the number on a pill colored by its band (docs/UI-SPEC.md, "Rating bands"). */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 2.25rem;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  font-weight: 500;
+}
+
+.chip[data-band="none"],
+.chip[data-band="low"] {
+  background: var(--chip-low-bg);
+  color: var(--chip-low-fg);
+}
+
+.chip[data-band="mid"] {
+  background: var(--chip-mid-bg);
+  color: var(--chip-mid-fg);
+}
+
+.chip[data-band="high"] {
+  background: var(--chip-high-bg);
+  color: var(--chip-high-fg);
+}
+
+.chip[data-band="top"] {
+  background: var(--chip-top-bg);
+  color: var(--chip-top-fg);
+}
+
+.chip[data-band="top"]::after {
+  content: "★";
+  font-size: 0.85em;
+}

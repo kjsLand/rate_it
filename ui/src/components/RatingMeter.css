@@ -1,0 +1,91 @@
+/* The rating meter: ten bars that rise from 1 to 10 (Now Playing). */
+
+/* The meter shrinks with its column: bars go from 28 px down to 16 px wide. */
+.meter {
+  display: flex;
+  flex: 0 1 334px;
+  align-items: flex-end;
+  gap: 6px;
+  min-width: 0;
+}
+
+.meter-bar {
+  display: flex;
+  flex: 0 1 28px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  min-width: 16px;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-s);
+  background: none;
+}
+
+.meter-bar:hover:not(:disabled) {
+  background: none;
+}
+
+.meter-fill {
+  display: block;
+  width: 100%;
+  height: calc(20px + var(--level) * 4px);
+  border-radius: 4px;
+  background: var(--border-strong);
+  opacity: 0.3;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
+}
+
+.meter-bar[data-lit="true"] .meter-fill {
+  background: var(--accent);
+  opacity: 1;
+}
+
+.meter[data-preview="true"] .meter-bar[data-lit="true"] .meter-fill {
+  opacity: 0.6;
+}
+
+.meter-bar[aria-pressed="true"] .meter-fill {
+  opacity: 1;
+}
+
+.meter-num {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--text-subtle);
+}
+
+.meter-bar:nth-child(1) {
+  --level: 1;
+}
+.meter-bar:nth-child(2) {
+  --level: 2;
+}
+.meter-bar:nth-child(3) {
+  --level: 3;
+}
+.meter-bar:nth-child(4) {
+  --level: 4;
+}
+.meter-bar:nth-child(5) {
+  --level: 5;
+}
+.meter-bar:nth-child(6) {
+  --level: 6;
+}
+.meter-bar:nth-child(7) {
+  --level: 7;
+}
+.meter-bar:nth-child(8) {
+  --level: 8;
+}
+.meter-bar:nth-child(9) {
+  --level: 9;
+}
+.meter-bar:nth-child(10) {
+  --level: 10;
+}

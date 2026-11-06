@@ -1,6 +1,6 @@
 {
   "db_name": "SQLite",
-  "query": "SELECT COUNT(*) AS \"n!: i64\" FROM ratings WHERE track_id = ?1 AND rated_at = ?2",
+  "query": "SELECT COUNT(*) AS \"n!: i64\" FROM ratings\n               WHERE track_id = ?1 AND rated_at = ?2 AND rating = ?3",
   "describe": {
     "columns": [
       {
@@ -11,11 +11,11 @@
       }
     ],
     "parameters": {
-      "Right": 2
+      "Right": 3
     },
     "nullable": [
       false
     ]
   },
-  "hash": "af676f8a45c39f39c99b5c517274760b345dbedc8fc28ca9cc89cf1cf0212b31"
+  "hash": "422b656d4176ee2635dfb751f0083640c5a42ad539fc46a4423b5b5b6df0994b"
 }
