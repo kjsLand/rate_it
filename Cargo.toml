@@ -1,6 +1,6 @@
 # Cargo workspace for the rate_it Tauri 2 backend. See docs/SPEC.md.
 [workspace]
-members = ["crates/*"]
+members = ["crates/*", "src-tauri"]
 resolver = "3"
 
 [workspace.package]

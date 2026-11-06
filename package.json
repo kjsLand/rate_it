@@ -1,11 +1,31 @@
 {
   "name": "rate-it",
   "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.18.0",
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
-    "lint:ts": "oxlint -c ui/.oxlintrc.json ui/src && tsc -p ui/tsconfig.json && depcruise ui/src && knip && prettier --check .",
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "bindings": "UPDATE_BINDINGS=1 cargo test -p rate-it --lib bindings_are_current",
+    "sqlx:prepare": "./scripts/sqlx-prepare.sh",
+    "lint:ts": "oxlint -c ui/.oxlintrc.json --deny-warnings ui/src && tsc -p ui/tsconfig.json && depcruise ui/src && knip && prettier --check .",
     "lint:rust": "cargo fmt --all --check && cargo clippy --workspace --all-targets --all-features -- -D warnings && cargo deny check && cargo machete",
     "test:ts": "vitest run --root ui",
     "test:rust": "cargo nextest run --workspace",
     "check": "pnpm lint:ts && pnpm lint:rust && pnpm test:ts && pnpm test:rust"
+  },
+  "devDependencies": {
+    "@oxlint/plugins": "1.91.0",
+    "@tauri-apps/cli": "2.12.4",
+    "dependency-cruiser": "18.7.2",
+    "knip": "6.44.1",
+    "oxlint": "1.91.0",
+    "prettier": "3.9.10",
+    "typescript": "5.9.3",
+    "vitest": "5.1.0"
   }
 }

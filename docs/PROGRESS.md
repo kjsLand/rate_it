@@ -34,13 +34,12 @@ Legend: `[x]` done, `[~]` partly done, `[ ]` not started.
 - [ ] Phase 0: workspace, lint gates, CI
 - [x] Phase 1: `storage` crate, migrations, `rate.txt` import (`core::legacy` + `App::import_legacy`), with tests.
 - [~] Phase 2: `spotify` crate done (client, PKCE, refresh, 204/401/429/timeout tests). Keyring store goes in `src-tauri`.
-- [~] Phase 3: `core` services done with tests (fake Spotify, in-memory SQLite). Tauri commands and React screens: not yet.
+- [~] Phase 3: `core` services done with tests. `src-tauri` done: thin commands, keyring store, desktop PKCE sign-in (oauth loopback), progress channels, cancel, bindings generated (`pnpm bindings`; test `bindings_are_current` is the CI check). React screens: not yet.
 - [ ] Phase 4: mobile (not testable on this machine without devices)
 - [ ] Phase 5: retire Python app (owner action)
 
 ## Next steps
 
-- Make the `src-tauri` crate: state, thin commands, keyring store, desktop OAuth, tauri-specta bindings export.
 - Make the `ui/` React app: `ui/src/ipc/`, screens, Vitest + mockIPC tests.
 
 ## How to build (for a resumed session)
