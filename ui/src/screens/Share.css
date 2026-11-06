@@ -85,12 +85,6 @@
   padding: 2px 0;
 }
 
-.leader {
-  flex: 1;
-  border-bottom: 2px dotted var(--border-strong);
-  opacity: 0.5;
-}
-
 /* ---- The stub ---- */
 
 .ticket-stub {

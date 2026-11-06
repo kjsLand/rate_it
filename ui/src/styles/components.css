@@ -327,6 +327,14 @@ input[type="radio"] {
   box-shadow: var(--shadow-2);
 }
 
+/* A dotted leader between a name and a value, as in liner-note credits. */
+.leader {
+  flex: 1;
+  min-width: var(--space-4);
+  border-bottom: 2px dotted var(--border-strong);
+  opacity: 0.5;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
