@@ -1,24 +1,171 @@
-/* Discover. */
+/* Discover — "The Record Bins" (docs/UI-SPEC.md): flip through four record sleeves.
+   Each tone pair is checked in theme/contrast.test.ts. */
 
-.cards {
+.bins {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-7) var(--space-5);
+  padding-top: var(--space-7);
+}
+
+.bin {
+  position: relative;
+  --sleeve-bg: var(--umber-500);
+  --sleeve-fg: var(--white);
+  --disc-label: var(--rose-400);
+}
+
+.bin[data-tone="rose"] {
+  --sleeve-bg: var(--rose-400);
+  --sleeve-fg: var(--umber-950);
+  --disc-label: var(--brick-500);
+}
+
+.bin[data-tone="brick"] {
+  --sleeve-bg: var(--brick-500);
+  --sleeve-fg: var(--white);
+  --disc-label: var(--paper);
+}
+
+.bin[data-tone="night"] {
+  --sleeve-bg: var(--umber-950);
+  --sleeve-fg: var(--rose-50);
+  --disc-label: var(--brick-400);
+}
+
+/* Dark theme sleeves: the same values twice (system setting and explicit choice). */
+:root[data-theme="dark"] .bin[data-tone="umber"] {
+  --sleeve-bg: var(--umber-700);
+  --sleeve-fg: var(--rose-50);
+}
+
+:root[data-theme="dark"] .bin[data-tone="rose"] {
+  --sleeve-bg: var(--rose-800);
+  --sleeve-fg: var(--rose-50);
+}
+
+:root[data-theme="dark"] .bin[data-tone="brick"] {
+  --sleeve-bg: var(--brick-800);
+  --sleeve-fg: var(--brick-50);
+}
+
+:root[data-theme="dark"] .bin[data-tone="night"] {
+  --sleeve-bg: var(--night-3);
+  --sleeve-fg: var(--rose-50);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .bin[data-tone="umber"] {
+    --sleeve-bg: var(--umber-700);
+    --sleeve-fg: var(--rose-50);
+  }
+
+  :root:not([data-theme="light"]) .bin[data-tone="rose"] {
+    --sleeve-bg: var(--rose-800);
+    --sleeve-fg: var(--rose-50);
+  }
+
+  :root:not([data-theme="light"]) .bin[data-tone="brick"] {
+    --sleeve-bg: var(--brick-800);
+    --sleeve-fg: var(--brick-50);
+  }
+
+  :root:not([data-theme="light"]) .bin[data-tone="night"] {
+    --sleeve-bg: var(--night-3);
+    --sleeve-fg: var(--rose-50);
+  }
+}
+
+/* ---- The sleeve ---- */
+
+.bin-sleeve {
+  position: relative;
+  z-index: 1;
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-4);
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  padding: var(--space-5);
+  border-radius: var(--radius-sleeve);
+  background: var(--sleeve-bg);
+  color: var(--sleeve-fg);
+  box-shadow: var(--shadow-2);
 }
 
-.discover-card {
-  flex: 1 1 200px;
-  padding: var(--space-4);
-  border-radius: var(--radius-m);
+.bin-sleeve h2 {
+  margin: 0;
+  font-size: var(--fs-h2);
+  line-height: 1.1;
+}
+
+.bin-sleeve p {
+  margin: 0;
+  font-size: var(--fs-small);
+}
+
+/* The button is the inverse of the sleeve, so it reads on every tone. */
+.bin-sleeve button {
+  margin-top: auto;
+  align-self: flex-start;
+  border-color: transparent;
   background: var(--surface);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-1);
+  color: var(--text);
 }
 
-.discover-card:nth-child(even) {
-  background: var(--surface-tint);
+.bin-sleeve button:hover:not(:disabled) {
+  background: var(--surface-raised);
 }
 
-.discover-card h2 {
-  margin-top: 0;
+/* ---- The record, hidden behind the sleeve until hover or focus ---- */
+
+.bin-disc {
+  position: absolute;
+  top: 5%;
+  right: 8%;
+  width: 55%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, var(--paper) 0 3%, var(--disc-label) 3.5% 18%, transparent 18.5%),
+    repeating-radial-gradient(circle, var(--umber-950) 0 2px, var(--night-3) 2px 4px);
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+.bin:hover .bin-disc,
+.bin:focus-within .bin-disc {
+  transform: translateY(-34%) rotate(40deg);
+}
+
+/* Wide windows: four square sleeves in a row. */
+@media (min-width: 1400px) {
+  .bins {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .bin-sleeve {
+    aspect-ratio: 1;
+  }
+
+  .bin-disc {
+    right: 10%;
+    width: 80%;
+  }
+}
+
+@media (max-width: 640px) {
+  .bins {
+    grid-template-columns: 1fr;
+    padding-top: var(--space-6);
+  }
+
+  .bin-sleeve {
+    aspect-ratio: auto;
+    min-height: 200px;
+  }
+
+  .bin-disc {
+    right: 12%;
+    width: 50%;
+  }
 }
