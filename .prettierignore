@@ -1,0 +1,6 @@
+target/
+node_modules/
+ui/dist/
+ui/src/bindings.ts
+tools/anti-slop/
+src-tauri/gen/

@@ -3,3 +3,9 @@ rate.txt
 /__pycache__
 /spotify_functions/__pycache__
 old_rate.txt
+/.venv
+# Tauri migration
+/target
+node_modules/
+ui/dist/
+src-tauri/gen/
