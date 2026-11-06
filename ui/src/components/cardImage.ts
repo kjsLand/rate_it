@@ -1,5 +1,7 @@
 /** Draws a rating card on a canvas and returns it as a PNG data URL. */
 
+import { rose, umber } from "../theme/palette";
+
 const WIDTH = 600;
 const PADDING = 32;
 const COVER = 240;
@@ -37,9 +39,9 @@ export async function cardPng(
     throw new Error("This system cannot draw images");
   }
 
-  context.fillStyle = "#75BAFF";
+  context.fillStyle = rose[100];
   context.fillRect(0, 0, canvas.width, canvas.height);
-  context.fillStyle = "#111111";
+  context.fillStyle = umber[950];
   context.font = "bold 24px sans-serif";
   context.fillText(title, PADDING, PADDING + LINE / 2, WIDTH - PADDING * 2);
   let y = PADDING + LINE / 2;

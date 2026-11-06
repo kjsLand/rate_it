@@ -1,0 +1,252 @@
+/* Shared controls and the screen layouts of the first UI, in the new palette.
+   Steps 2 and 3 of docs/UI-SPEC.md replace the screen rules with one file per screen. */
+
+button {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--text);
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+button:hover:not(:disabled) {
+  background: var(--surface-raised);
+}
+
+button[type="submit"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+input,
+select {
+  margin-left: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-s);
+  background: var(--surface);
+}
+
+input[aria-invalid="true"] {
+  border: 2px solid var(--danger);
+}
+
+input[type="checkbox"] {
+  accent-color: var(--accent);
+}
+
+progress {
+  accent-color: var(--accent);
+}
+
+.screen-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.screen-header h1 {
+  margin: 0;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  margin: var(--space-3) 0;
+}
+
+.status {
+  color: var(--text-muted);
+}
+
+.status.error {
+  color: var(--danger);
+}
+
+.status.ok {
+  color: var(--success);
+}
+
+.empty {
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.hint {
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}
+
+.current-song {
+  display: flex;
+  gap: var(--space-5);
+  align-items: flex-start;
+}
+
+.cover {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--radius-sleeve);
+  box-shadow: var(--shadow-2);
+}
+
+.song-name {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  font-weight: 600;
+  line-height: 1.1;
+  margin: 0 0 var(--space-2);
+}
+
+.stars {
+  display: flex;
+  gap: var(--space-1);
+  margin: var(--space-3) 0;
+}
+
+.star {
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  border-radius: var(--radius-s);
+  color: var(--border-strong);
+  padding: 0 var(--space-1);
+}
+
+.star:hover:not(:disabled) {
+  background: none;
+}
+
+.star.lit {
+  color: var(--accent);
+}
+
+.log {
+  background: var(--surface-tint);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-m);
+  max-width: 640px;
+}
+
+.columns {
+  display: flex;
+  gap: var(--space-5);
+  flex-wrap: wrap;
+}
+
+.artist-list,
+.select-list,
+.collaborators {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.artist-list button[aria-pressed="true"] {
+  background: var(--surface-raised);
+  box-shadow: inset 3px 0 0 var(--accent);
+  font-weight: 600;
+}
+
+.track-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  margin-bottom: var(--space-2);
+}
+
+.track-name {
+  min-width: 200px;
+}
+
+.track-rating {
+  font-family: var(--font-mono);
+  color: var(--accent-text);
+  font-weight: 500;
+}
+
+.track-row input {
+  width: 4em;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.discover-card {
+  flex: 1 1 200px;
+  padding: var(--space-4);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-1);
+}
+
+.discover-card:nth-child(even) {
+  background: var(--surface-tint);
+}
+
+.discover-card h2 {
+  margin-top: 0;
+}
+
+.card {
+  display: flex;
+  gap: var(--space-4);
+  background: var(--surface-tint);
+  padding: var(--space-4);
+  border-radius: var(--radius-m);
+  max-width: 640px;
+}
+
+.card figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.card strong {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+}
+
+.progress {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+}
+
+@media (max-width: 640px) {
+  .current-song {
+    flex-direction: column;
+  }
+}

@@ -13,5 +13,7 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: ["src/ipc/test-setup.ts"],
     include: ["src/**/*.test.{ts,tsx}"],
+    // contrast.test.ts reads tokens.css as text (`?raw`); other style sheets stay empty in tests.
+    css: { include: [/tokens\.css/u] },
   },
 });
