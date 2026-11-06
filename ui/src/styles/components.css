@@ -128,6 +128,20 @@ input[type="radio"] {
   color: var(--on-accent);
 }
 
+/* A segmented group of toggle buttons (aria-pressed), for choices that run an action. */
+.segmented .segment-button {
+  min-height: 32px;
+  padding: var(--space-1) var(--space-4);
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.segmented .segment-button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
 .segment input:focus-visible + span {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
