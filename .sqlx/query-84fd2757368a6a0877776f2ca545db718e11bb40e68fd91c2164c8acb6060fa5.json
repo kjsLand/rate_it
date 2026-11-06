@@ -1,0 +1,52 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT a.id AS \"id!\", a.name AS \"name!\",\n                 COUNT(*) AS \"rated_count!: i64\", AVG(c.rating) AS \"average!: f64\"\n               FROM current_ratings c\n               JOIN track_artists ta ON ta.track_id = c.track_id AND ta.position = 0\n               JOIN artists a ON a.id = ta.artist_id\n               GROUP BY a.id, a.name\n               ORDER BY a.name COLLATE NOCASE",
+  "describe": {
+    "columns": [
+      {
+        "name": "id!",
+        "ordinal": 0,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "artists",
+            "name": "id"
+          }
+        }
+      },
+      {
+        "name": "name!",
+        "ordinal": 1,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "artists",
+            "name": "name"
+          }
+        }
+      },
+      {
+        "name": "rated_count!: i64",
+        "ordinal": 2,
+        "type_info": "Integer",
+        "origin": "Expression"
+      },
+      {
+        "name": "average!: f64",
+        "ordinal": 3,
+        "type_info": "Integer",
+        "origin": "Expression"
+      }
+    ],
+    "parameters": {
+      "Right": 0
+    },
+    "nullable": [
+      true,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "84fd2757368a6a0877776f2ca545db718e11bb40e68fd91c2164c8acb6060fa5"
+}

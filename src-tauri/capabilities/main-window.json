@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "main-window",
+  "description": "The main window gets only the core permissions. The plugins (opener, dialog, clipboard, deep-link) are used from Rust only, so the WebView gets none of their permissions, and no sql, fs or shell permission.",
+  "windows": ["main"],
+  "permissions": ["core:default"]
+}

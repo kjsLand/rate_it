@@ -1,0 +1,26 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT body FROM album_cache WHERE album_id = ?1",
+  "describe": {
+    "columns": [
+      {
+        "name": "body",
+        "ordinal": 0,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "album_cache",
+            "name": "body"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "9c4a68f9b4b8b4cb9ed2be6cdcc70ac8f06175fccf22e5bbe8ec7c64f9f58e14"
+}

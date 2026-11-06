@@ -4,6 +4,9 @@ all-features = true
 [advisories]
 version = 2
 yanked = "deny"
+# Report unmaintained crates only when a workspace crate depends on them directly.
+# Tauri pulls in some unmaintained crates (paste, proc-macro-error, zbus parts) that we cannot change.
+unmaintained = "workspace"
 
 [licenses]
 version = 2
@@ -17,12 +20,20 @@ allow = [
   "Zlib",
   "Unicode-3.0",
   "MPL-2.0",
+  # Mozilla CA certificate data (webpki-root-certs, used by rustls). Permissive data license.
+  "CDLA-Permissive-2.0",
+  # Boost license (clipboard-win, error-code: Windows clipboard of the clipboard plugin). Permissive.
+  "BSL-1.0",
+  # Public domain dedication (tiny-keccak, used by Tauri). Permissive.
+  "CC0-1.0",
 ]
 confidence-threshold = 0.9
 
 [bans]
 multiple-versions = "warn"
 wildcards = "deny"
+# The workspace crates use path dependencies; they are not published.
+allow-wildcard-paths = true
 
 [sources]
 unknown-registry = "deny"

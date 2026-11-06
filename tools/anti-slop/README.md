@@ -1,14 +1,12 @@
 # anti-slop (vendored)
 
-Source: https://github.com/dmmulroy/anti-slop (MIT). It has no npm package; it is meant to be copied in.
+Source: https://github.com/dmmulroy/anti-slop (MIT), commit `13909c9e07590f5a85d93c62712259fe14a883f7`
+(version 0.1.2). It has no npm package; it is meant to be copied in.
 
-Not vendored yet. To add it, either:
+What was copied: the upstream `src/` folder, without the `effect/` rules (this app does not use
+Effect) and without the `*.test.ts` files. The upstream `LICENSE` is kept in this folder, and
+`vendor/eslint-stylistic/` keeps its own license and provenance.
 
-1. Run the install skill with your coding agent:
-   `npx skills add dmmulroy/anti-slop --skill install-anti-slop`
-2. Or copy the repository's `src/` folder into this folder, keep its LICENSE file,
-   and install `@oxlint/plugins` at the same version as `oxlint`.
-
-`ui/.oxlintrc.json` loads `tools/anti-slop/index.ts` and turns on all generic rules as errors.
-After vendoring, check that the plugin path and the rule prefix (`anti-slop/`) match what the
-install skill writes. Do not turn on the Effect rules; this app does not use Effect.
+`ui/.oxlintrc.json` loads `tools/anti-slop/index.ts`. `@oxlint/plugins` must be the same exact
+version as `oxlint` in `package.json`. Oxlint loads this TypeScript plugin through Node, so Node 24
+or later is necessary (see `.nvmrc`).

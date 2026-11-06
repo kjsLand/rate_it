@@ -1,0 +1,12 @@
+{
+  "db_name": "SQLite",
+  "query": "INSERT INTO album_cache (album_id, body) VALUES (?1, ?2)\n             ON CONFLICT(album_id) DO UPDATE SET body = excluded.body,\n               fetched_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Right": 2
+    },
+    "nullable": []
+  },
+  "hash": "05e4cc64dc076b1c0bb699144674d5074da5e2a1165e1adc7ebf37892acbb620"
+}

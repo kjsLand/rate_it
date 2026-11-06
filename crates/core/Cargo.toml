@@ -1,0 +1,22 @@
+[package]
+name = "rate-it-core"
+description = "Rating, playlist and discover services of rate_it"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+rust-version.workspace = true
+publish = false
+
+[dependencies]
+async-trait.workspace = true
+rate-it-spotify.workspace = true
+rate-it-storage.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+specta.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+tokio-util.workspace = true
+
+[lints]
+workspace = true

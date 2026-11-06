@@ -1,0 +1,62 @@
+{
+  "db_name": "SQLite",
+  "query": "SELECT id AS \"id!\", rating AS \"rating!\", rated_at AS \"rated_at!\", source AS \"source!\"\n               FROM ratings WHERE track_id = ?1 ORDER BY id",
+  "describe": {
+    "columns": [
+      {
+        "name": "id!",
+        "ordinal": 0,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "ratings",
+            "name": "id"
+          }
+        }
+      },
+      {
+        "name": "rating!",
+        "ordinal": 1,
+        "type_info": "Integer",
+        "origin": {
+          "Table": {
+            "table": "ratings",
+            "name": "rating"
+          }
+        }
+      },
+      {
+        "name": "rated_at!",
+        "ordinal": 2,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "ratings",
+            "name": "rated_at"
+          }
+        }
+      },
+      {
+        "name": "source!",
+        "ordinal": 3,
+        "type_info": "Text",
+        "origin": {
+          "Table": {
+            "table": "ratings",
+            "name": "source"
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Right": 1
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "35011836bd8f585cd3c3c12011076dafd2ec5620beae1e6643849dec65519b36"
+}

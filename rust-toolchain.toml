@@ -1,6 +1,5 @@
 [toolchain]
-# Pin an exact version (for example "1.91.0") when the project starts,
-# and change it on purpose. Tauri's SQL ecosystem needs Rust 1.90 or later.
-channel = "stable"
+# Pinned when the project started (2026-11-05). Change it on purpose.
+channel = "1.99.1"
 profile = "minimal"
 components = ["clippy", "rustfmt"]
