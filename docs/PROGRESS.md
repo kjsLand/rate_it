@@ -10,16 +10,16 @@ Branch: `tauri-rewrite`.
 The spec asked for decisions. These were made without a human in the loop, from the spec's own
 recommendations. Change them here if the owner decides differently.
 
-| Question | Decision |
-| --- | --- |
-| Spotify client | Own Rust client (`crates/spotify`), as recommended. |
-| Mobile token storage | Desktop: `keyring`. Mobile: a file in the app data folder (`TokenStore` trait), until a keychain plugin is chosen. |
-| tauri-specta | Accept the release candidate. |
-| Top 10 | Replace with "My Top 10" (your 10 highest-rated songs of the artist). |
-| Mobile redirect URI | Try `rateit://callback` first. |
-| Users | 5 Development Mode users is enough for version 1. |
-| Sync | Export and import of a JSON file. |
-| Spotify Client ID | Not a secret with PKCE. Read from the `app_settings` table (Settings screen), else from the build-time variable `RATE_IT_SPOTIFY_CLIENT_ID`. |
+| Question             | Decision                                                                                                                                     |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Spotify client       | Own Rust client (`crates/spotify`), as recommended.                                                                                          |
+| Mobile token storage | Desktop: `keyring`. Mobile: a file in the app data folder (`TokenStore` trait), until a keychain plugin is chosen.                           |
+| tauri-specta         | Accept the release candidate.                                                                                                                |
+| Top 10               | Replace with "My Top 10" (your 10 highest-rated songs of the artist).                                                                        |
+| Mobile redirect URI  | Try `rateit://callback` first.                                                                                                               |
+| Users                | 5 Development Mode users is enough for version 1.                                                                                            |
+| Sync                 | Export and import of a JSON file.                                                                                                            |
+| Spotify Client ID    | Not a secret with PKCE. Read from the `app_settings` table (Settings screen), else from the build-time variable `RATE_IT_SPOTIFY_CLIENT_ID`. |
 
 ## Tooling notes
 
@@ -31,16 +31,17 @@ recommendations. Change them here if the owner decides differently.
 
 Legend: `[x]` done, `[~]` partly done, `[ ]` not started.
 
-- [ ] Phase 0: workspace, lint gates, CI
+- [~] Phase 0: workspace and both lint gates done; anti-slop and the Rust lints fail on known violations. CI workflow: see below.
 - [x] Phase 1: `storage` crate, migrations, `rate.txt` import (`core::legacy` + `App::import_legacy`), with tests.
 - [~] Phase 2: `spotify` crate done (client, PKCE, refresh, 204/401/429/timeout tests). Keyring store goes in `src-tauri`.
-- [~] Phase 3: `core` services done with tests. `src-tauri` done: thin commands, keyring store, desktop PKCE sign-in (oauth loopback), progress channels, cancel, bindings generated (`pnpm bindings`; test `bindings_are_current` is the CI check). React screens: not yet.
+- [~] Phase 3: all screens of the Feature parity table are built (`ui/src/screens/`), with Vitest + mockIPC tests. `pnpm check` passes. Not done: WebDriver end-to-end tests; a manual run against real Spotify.
 - [ ] Phase 4: mobile (not testable on this machine without devices)
 - [ ] Phase 5: retire Python app (owner action)
 
 ## Next steps
 
-- Make the `ui/` React app: `ui/src/ipc/`, screens, Vitest + mockIPC tests.
+- Add the GitHub Actions workflow (`.github/workflows/ci.yml`).
+- Run `pnpm tauri dev` and check the app starts.
 
 ## How to build (for a resumed session)
 

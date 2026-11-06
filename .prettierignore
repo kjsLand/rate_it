@@ -4,3 +4,9 @@ ui/dist/
 ui/src/bindings.ts
 tools/anti-slop/
 src-tauri/gen/
+.sqlx/
+pnpm-lock.yaml
+src-tauri/icons/
+# The spec and the legacy README keep the owner's formatting.
+docs/SPEC.md
+README.md

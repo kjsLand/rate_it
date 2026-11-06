@@ -4,13 +4,13 @@ Two lint gates. `pnpm check` runs both, then the tests. See `docs/SPEC.md` ("Cod
 
 ## TypeScript UI (`ui/`)
 
-| File | Tool |
-| --- | --- |
-| `ui/.oxlintrc.json` | Oxlint + anti-slop rules |
-| `ui/tsconfig.json` | `tsc --noEmit`, strict |
-| `.dependency-cruiser.cjs` | Layer rules (only `ui/src/ipc/` calls Rust) |
-| `knip.json` | Unused files, exports, dependencies |
-| `.prettierrc.json`, `.prettierignore` | Format |
+| File                                  | Tool                                        |
+| ------------------------------------- | ------------------------------------------- |
+| `ui/.oxlintrc.json`                   | Oxlint + anti-slop rules                    |
+| `ui/tsconfig.json`                    | `tsc --noEmit`, strict                      |
+| `.dependency-cruiser.cjs`             | Layer rules (only `ui/src/ipc/` calls Rust) |
+| `knip.json`                           | Unused files, exports, dependencies         |
+| `.prettierrc.json`, `.prettierignore` | Format                                      |
 
 Set up (once the `ui/` app exists):
 
@@ -23,13 +23,13 @@ Then vendor anti-slop into `tools/anti-slop/` (see `tools/anti-slop/README.md`).
 
 ## Rust backend (`src-tauri/`, `crates/`)
 
-| File | Tool |
-| --- | --- |
-| `Cargo.toml` (`[workspace.lints]`) | rustc + Clippy lint levels |
-| `clippy.toml` | Clippy thresholds |
-| `rustfmt.toml` | Format |
-| `deny.toml` | cargo-deny: advisories, licenses, sources |
-| `rust-toolchain.toml` | Same Rust, Clippy and rustfmt for everyone |
+| File                               | Tool                                       |
+| ---------------------------------- | ------------------------------------------ |
+| `Cargo.toml` (`[workspace.lints]`) | rustc + Clippy lint levels                 |
+| `clippy.toml`                      | Clippy thresholds                          |
+| `rustfmt.toml`                     | Format                                     |
+| `deny.toml`                        | cargo-deny: advisories, licenses, sources  |
+| `rust-toolchain.toml`              | Same Rust, Clippy and rustfmt for everyone |
 
 Each crate's `Cargo.toml` must contain:
 

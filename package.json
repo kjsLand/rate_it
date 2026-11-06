@@ -13,10 +13,11 @@
     "bindings": "UPDATE_BINDINGS=1 cargo test -p rate-it --lib bindings_are_current",
     "sqlx:prepare": "./scripts/sqlx-prepare.sh",
     "lint:ts": "oxlint -c ui/.oxlintrc.json --deny-warnings ui/src && tsc -p ui/tsconfig.json && depcruise ui/src && knip && prettier --check .",
-    "lint:rust": "cargo fmt --all --check && cargo clippy --workspace --all-targets --all-features -- -D warnings && cargo deny check && cargo machete",
+    "lint:rust": "pnpm build:ui && cargo fmt --all --check && cargo clippy --workspace --all-targets --all-features -- -D warnings && cargo deny check && cargo machete",
     "test:ts": "vitest run --root ui",
-    "test:rust": "cargo nextest run --workspace",
-    "check": "pnpm lint:ts && pnpm lint:rust && pnpm test:ts && pnpm test:rust"
+    "test:rust": "pnpm build:ui && cargo nextest run --workspace",
+    "check": "pnpm lint:ts && pnpm lint:rust && pnpm test:ts && pnpm test:rust",
+    "build:ui": "pnpm --dir ui build"
   },
   "devDependencies": {
     "@oxlint/plugins": "1.91.0",

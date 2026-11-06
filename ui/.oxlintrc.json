@@ -31,11 +31,26 @@
     "anti-slop/no-shape-in-symbol-names": "error",
     "anti-slop/require-readable-spacing": "error",
 
+    "oxc/no-accumulating-spread": "error",
+    // React 17+ JSX transform: React does not need to be in scope.
+    "react/react-in-jsx-scope": "off",
+    // Side-effect imports are for style sheets only.
+    "import/no-unassigned-import": ["error", { "allow": ["**/*.css"] }],
+
     "no-console": "error",
     "eqeqeq": "error",
     "import/no-cycle": "error",
     "react/rules-of-hooks": "error",
     "max-lines": ["error", { "max": 300 }]
   },
-  "ignorePatterns": ["src/bindings.ts", "dist/**"]
+  "ignorePatterns": [
+    "src/bindings.ts",
+    "dist/**",
+    ".agent/**",
+    ".agents/**",
+    ".claude/**",
+    ".codex/**",
+    ".cursor/**",
+    "tools/anti-slop/**"
+  ]
 }
